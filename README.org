@@ -1,18 +1,24 @@
 #+TITLE:My Lisp Configs
 
 This is mainly a shared config propagating my setup to
-implementation-specific config files. Some readline completions added
-on top, so that e.g.
+implementation-specific config files.
+
+* Installation
+
+Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
+conf ends up in the proper place too.
+
+* Readline customizations
+
+Some readline completions appended from =*-completions.txt=, so that
 #+begin_src sh
   rlwrap ecl
 #+end_src
 
 Ends up with nice list of completions.
 
-* Installation
-
-Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
-conf ends up in the proper place too.
+# TODO: Also include implementation-specific completions, like SI:*
+# for ECL and SB-*:* for SBCL.
 
 * Graven Image Customizations
 
