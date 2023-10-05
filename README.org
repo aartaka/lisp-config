@@ -1,7 +1,6 @@
 #+TITLE:My Lisp Configs
 
-This is mainly a shared config propagating my setup to
-implementation-specific config files.
+This is mainly a shared config for Lisp REPLs.
 
 * Installation
 
