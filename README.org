@@ -13,3 +13,8 @@ Ends up with nice list of completions.
 
 Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
 conf ends up in the proper place too.
+
+* Graven Image Customizations
+
+Also has lots of =:around= methods for my [[https://github.com/aartaka/graven-image][Graven Image]]
+standard-enhancing library. Mainly making printouts less overwhelming.
