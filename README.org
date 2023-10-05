@@ -1,0 +1,15 @@
+#+TITLE:My Lisp Configs
+
+This is mainly a shared config propagating my setup to
+implementation-specific config files. Some readline completions added
+on top, so that e.g.
+#+begin_src sh
+  rlwrap ecl
+#+end_src
+
+Ends up with nice list of completions.
+
+* Installation
+
+Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
+conf ends up in the proper place too.
