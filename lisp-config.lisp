@@ -44,11 +44,11 @@
   (with-useful-printing
     (call-next-method)))
 
-(defmethod gimage:describe* :around (object &optional (stream t) ignore-methods)
+(defmethod gimage:describe* :around (object &optional (stream t) respect-method)
   "Ignore the `describe-object' methods."
-  (declare (ignorable ignore-methods))
+  (declare (ignorable object stream respect-methods))
   (with-useful-printing
-    (call-next-method object stream t)))
+    (call-next-method)))
 
 (defmethod gimage:documentation* :around (object &optional doc-type)
   "Implementations throw tantrums getting nonexistent entities' docs."
