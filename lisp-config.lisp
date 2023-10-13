@@ -28,10 +28,10 @@
 
 (defmacro with-useful-printing (&body body)
   `(let ((*print-case* :downcase)
-	 (*print-level* 2)
-	 (*print-lines* 1)
-	 (*print-length* 7)
-	 (*print-circle* nil))
+         (*print-level* 2)
+         (*print-lines* 1)
+         (*print-length* 7)
+         (*print-circle* nil))
      ,@body))
 
 (defmethod gimage:apropos* :around (string &optional package external-only docs-too)
