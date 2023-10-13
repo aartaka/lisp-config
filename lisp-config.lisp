@@ -44,8 +44,7 @@
   (with-useful-printing
     (call-next-method)))
 
-(defmethod gimage:describe* :around (object &optional (stream t) respect-method)
-  "Ignore the `describe-object' methods."
+(defmethod gimage:describe* :around (object &optional stream respect-methods)
   (declare (ignorable object stream respect-methods))
   (with-useful-printing
     (call-next-method)))
