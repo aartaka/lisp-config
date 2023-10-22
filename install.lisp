@@ -28,6 +28,7 @@
              (princ (uiop:read-file-string file ) f)
              (fresh-line f)))
       (echo-freshline #p"~/.config/common-lisp/standard-completions.txt")
+      (echo-freshline #p"~/.config/common-lisp/keyword-completions.txt")
       (echo-freshline #p"~/.config/common-lisp/gimage-completions.txt")
       (echo-freshline #p"~/.config/common-lisp/uiop-completions.txt")
       (echo-freshline #p"~/.config/common-lisp/asdf-completions.txt"))))
