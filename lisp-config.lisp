@@ -18,6 +18,8 @@
 (require "package-locks")
 #+sbcl
 (require "sb-introspect")
+#+sbcl
+(require "sb-aclrepl")
 
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
