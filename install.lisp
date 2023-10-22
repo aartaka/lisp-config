@@ -25,7 +25,7 @@
                           (uiop:strcat "." impl-executable "_completions")
                           (user-homedir-pathname)))
     (flet ((echo-freshline (file)
-             (princ (uiop:read-file-string file ) f)
+             (princ (uiop:read-file-string file) f)
              (fresh-line f)))
       (echo-freshline #p"~/.config/common-lisp/standard-completions.txt")
       (echo-freshline #p"~/.config/common-lisp/keyword-completions.txt")
