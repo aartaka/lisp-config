@@ -1,0 +1,5 @@
+set editing-mode emacs
+set bell-style visible
+set colored-completion-prefix on
+set blink-matching-paren on
+TAB: complete
