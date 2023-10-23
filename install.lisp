@@ -34,6 +34,5 @@
       (echo-freshline #p"~/.config/common-lisp/asdf-completions.txt"))))
 
 (let ((inputrc (uiop:merge-pathnames* ".inputrc" (user-homedir-pathname))))
-  (uiop:delete-file-if-exists inputrc)
   (uiop:copy-file #p"~/.config/common-lisp/inputrc"
                   inputrc))
