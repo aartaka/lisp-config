@@ -13,7 +13,13 @@
      ,@body))
 
 ;; All config load the same file.
-(dolist (file (list #p"~/.sbclrc" #p"~/.ccl-init.lisp" #p"~/.eclrc" #p"~/.clisprc.lisp" #p"~/.abclrc"
+(dolist (file (list #p"~/.sbclrc"
+                    #p"~/.ccl-init.lisp"
+                    #p"~/.eclrc"
+                    #p"~/.abclrc"
+                    #p"~/.clisprc.lisp"
+                    #p"~/.cmucl-init.lisp"
+                    #p"~/.mkclrc"
                     ;; Allegro:
                     #p"~/.clinit.cl"))
   (with-open-override (f file)
