@@ -64,16 +64,11 @@
 
 ;; (defclass talkative-stream (graven-image::fundamental-character-output-stream)
 ;;   ((buffer :initform '())))
-;; (defclass talkative-out-stream (talkative-stream) ())
-;; (defclass talkative-in-stream (talkative-stream) ())
-
-;; (defvar output-p nil)
 
 ;; (defmethod graven-image::stream-line-column ((stream talkative-stream))
 ;;   0)
 
-;; (defmethod graven-image::stream-write-char ((stream talkative-out-stream) character)
-;;   (setf output-p t)
+;; (defmethod graven-image::stream-write-char ((stream talkative-stream) character)
 ;;   (cond
 ;;     ((eql #\Newline character)
 ;;      (uiop:run-program (list "espeak-ng" "--punct" "-s" "200" (coerce (reverse (slot-value stream 'buffer)) 'string)))
@@ -81,20 +76,10 @@
 ;;     (t
 ;;      (push character (slot-value stream 'buffer)))))
 
-;; (defmethod graven-image::stream-write-char ((stream talkative-in-stream) character)
-;;   (setf output-p nil)
-;;   (unless (eql #\Bell character)
-;;     (cond
-;;       ((eql #\Newline character)
-;;        (uiop:run-program (list "espeak-ng" "--punct" "-s" "200" (coerce (reverse (slot-value stream 'buffer)) 'string)))
-;;        (setf (slot-value stream 'buffer) '()))
-;;       (t
-;;        (push character (slot-value stream 'buffer))))))
-
 ;; (defun talkative-in (stream)
-;;   (make-echo-stream stream (make-instance 'talkative-in-stream)))
+;;   (make-echo-stream stream (make-instance 'talkative-stream)))
 ;; (defun talkative-out (stream)
-;;   (make-broadcast-stream stream (make-instance 'talkative-out-stream)))
+;;   (make-broadcast-stream stream (make-instance 'talkative-stream)))
 
 ;; (setf *standard-output* (talkative-out *standard-output*)
 ;;       *debug-io* (make-two-way-stream (talkative-in *debug-io*)
