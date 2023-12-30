@@ -1,0 +1,15 @@
+[submodule "graven-image"]
+	path = graven-image
+	url = https://github.com/aartaka/graven-image
+[submodule "trivial-toplevel-commands"]
+	path = trivial-toplevel-commands
+	url = https://github.com/aartaka/trivial-toplevel-commands
+[submodule "trivial-toplevel-prompt"]
+	path = trivial-toplevel-prompt
+	url = https://github.com/aartaka/trivial-toplevel-prompt
+[submodule "trivial-gray-streams"]
+	path = trivial-gray-streams
+	url = https://github.com/trivial-gray-streams/trivial-gray-streams
+[submodule "closer-mop"]
+	path = closer-mop
+	url = https://github.com/pcostanza/closer-mop
