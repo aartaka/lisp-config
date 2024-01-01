@@ -1,7 +1,9 @@
+(defun home (path)
+  (merge-pathnames path (user-homedir-pathname)))
+
 ;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
-(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp"
-                                       (user-homedir-pathname))))
+(let ((quicklisp-init (home "quicklisp/setup.lisp")))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
 
@@ -10,9 +12,9 @@
 (ignore-errors (ql:quickload "cffi"))
 #-(or ecl abcl)
 (when (find-package "CFFI")
-  (push #p"~/.guix-extra-profiles/nyxt-profile/nyxt-profile/lib/"
+  (push (home ".guix-extra-profiles/nyxt-profile/nyxt-profile/lib/")
         (symbol-value (find-symbol "*FOREIGN-LIBRARY-DIRECTORIES*" :CFFI)))
-  (push #p"~/.guix-profile/lib/"
+  (push (home ".guix-profile/lib/")
         (symbol-value (find-symbol "*FOREIGN-LIBRARY-DIRECTORIES*" :CFFI))))
 #+ecl
 (require "package-locks")
@@ -24,7 +26,7 @@
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
-(asdf:load-asd #p"~/git/graven-image/graven-image.asd")
+(asdf:load-asd (home ".config/common-lisp/graven-image/graven-image.asd"))
 (asdf:load-system :graven-image)
 (use-package :graven-image)
 
