@@ -64,29 +64,39 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-;; (defclass talkative-stream (graven-image::fundamental-character-output-stream)
-;;   ((buffer :initform '())))
+(ql:quickload :trivial-gray-streams)
 
-;; (defmethod graven-image::stream-line-column ((stream talkative-stream))
-;;   0)
+(defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
+  ((buffer :initform '())))
 
-;; (defmethod graven-image::stream-write-char ((stream talkative-stream) character)
-;;   (cond
-;;     ((eql #\Newline character)
-;;      (uiop:run-program (list "espeak-ng" "--punct" "-s" "200" (coerce (reverse (slot-value stream 'buffer)) 'string)))
-;;      (setf (slot-value stream 'buffer) '()))
-;;     (t
-;;      (push character (slot-value stream 'buffer)))))
+(defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
+  0)
 
-;; (defun talkative-in (stream)
-;;   (make-echo-stream stream (make-instance 'talkative-stream)))
-;; (defun talkative-out (stream)
-;;   (make-broadcast-stream stream (make-instance 'talkative-stream)))
+(defun speak-buffer (stream)
+  (uiop:run-program (list "espeak-ng" "--punct" "-s" "200" (coerce (reverse (slot-value stream 'buffer)) 'string)))
+  (setf (slot-value stream 'buffer) '()))
 
-;; (setf *standard-output* (talkative-out *standard-output*)
-;;       *debug-io* (make-two-way-stream (talkative-in *debug-io*)
-;;                                       (talkative-out *debug-io*))
-;;       *standard-input* (talkative-in *standard-input*)
-;;       *trace-output* (talkative-out *trace-output*)
-;;       *query-io* (make-two-way-stream (talkative-in *query-io*)
-;;                                       (talkative-out *query-io*)))
+(defmethod trivial-gray-streams:stream-write-char ((stream talkative-stream) character)
+  (cond
+    ((eql #\Newline character)
+     (speak-buffer stream))
+    (t
+     (push character (slot-value stream 'buffer)))))
+
+(defmethod trivial-gray-streams:stream-finish-output ((stream talkative-stream))
+  (speak-buffer stream))
+(defmethod trivial-gray-streams:stream-force-output ((stream talkative-stream))
+  (speak-buffer stream))
+
+(defun talkative-in (stream)
+  (make-echo-stream stream (make-instance 'talkative-stream)))
+(defun talkative-out (stream)
+  (make-broadcast-stream stream (make-instance 'talkative-stream)))
+
+(setf *standard-output* (talkative-out *standard-output*)
+      *debug-io* (make-two-way-stream (talkative-in *debug-io*)
+                                      (talkative-out *debug-io*))
+      *standard-input* (talkative-in *standard-input*)
+      *trace-output* (talkative-out *trace-output*)
+      *query-io* (make-two-way-stream (talkative-in *query-io*)
+                                      (talkative-out *query-io*)))
