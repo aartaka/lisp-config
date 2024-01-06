@@ -73,7 +73,10 @@
 ;;   0)
 
 ;; (defun speak-buffer (stream)
-;;   (uiop:run-program (list "espeak-ng" "--punct" "-s" "200" (coerce (reverse (slot-value stream 'buffer)) 'string)))
+;;   (ignore-errors
+;;     (uiop:run-program
+;;      (list "espeak-ng" "--punct" "-s" "200"
+;;            (coerce (reverse (slot-value stream 'buffer)) 'string))))
 ;;   (setf (slot-value stream 'buffer) '()))
 
 ;; (defmethod trivial-gray-streams:stream-write-char ((stream talkative-stream) character)
