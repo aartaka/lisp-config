@@ -68,7 +68,8 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-;; (ql:quickload :trivial-gray-streams)
+;; (asdf:load-asd (home ".config/common-lisp/trivial-gray-streams/trivial-gray-streams.asd"))
+;; (load-source :trivial-gray-streams)
 
 ;; (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
 ;;   ((buffer :initform '())))
