@@ -75,6 +75,10 @@
 (asdf:load-asd (home ".config/common-lisp/trivial-toplevel-commands/trivial-toplevel-commands.asd"))
 (load-source :trivial-toplevel-commands)
 
+(tpl-cmd:define-command/eval (:quit :qq) (&optional code)
+  "Quit properly."
+  (uiop:quit (or code 0)))
+
 ;; (asdf:load-asd (home ".config/common-lisp/trivial-gray-streams/trivial-gray-streams.asd"))
 ;; (load-source :trivial-gray-streams)
 
