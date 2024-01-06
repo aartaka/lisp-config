@@ -8,6 +8,10 @@
     (load quicklisp-init)))
 
 (require "asdf")
+
+(defun load-source (component)
+  (asdf:oos 'asdf:load-source-op component))
+
 #-(or ecl abcl)
 (ignore-errors (ql:quickload "cffi"))
 #-(or ecl abcl)
@@ -27,7 +31,7 @@
 (declaim (optimize (safety 3) (debug 3)))
 
 (asdf:load-asd (home ".config/common-lisp/graven-image/graven-image.asd"))
-(asdf:load-system :graven-image)
+(load-source :graven-image)
 (use-package :graven-image)
 
 (defmacro with-useful-printing (&body body)
