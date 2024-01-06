@@ -68,7 +68,7 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-(asdf:load-asd (home "~/.config/common-lisp/trivial-toplevel-prompt/trivial-toplevel-prompt.asd"))
+(asdf:load-asd (home ".config/common-lisp/trivial-toplevel-prompt/trivial-toplevel-prompt.asd"))
 (load-source :trivial-toplevel-prompt)
 (trivial-toplevel-prompt:set-toplevel-prompt "~*~a~*~@[/D~d~]~*~@[/I~*~]? ")
 
