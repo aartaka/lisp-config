@@ -70,7 +70,7 @@
 
 (asdf:load-asd (home "~/.config/common-lisp/trivial-toplevel-prompt/trivial-toplevel-prompt.asd"))
 (load-source :trivial-toplevel-prompt)
-(trivial-toplevel-prompt:set-toplevel-prompt "~3*~@[D~d ~]~3:*~a~@[ ~d~] ")
+(trivial-toplevel-prompt:set-toplevel-prompt "~3*~@[D~d ~]~3:*~a~@[ ~d~]? ")
 
 ;; (asdf:load-asd (home ".config/common-lisp/trivial-gray-streams/trivial-gray-streams.asd"))
 ;; (load-source :trivial-gray-streams)
