@@ -76,6 +76,15 @@
   "Quit properly."
   (uiop:quit (or code 0)))
 
+#-clozure
+(tpl-cmd:define-command/string (:sh :!) (command)
+  "Run shell command"
+  (ignore-errors
+    (uiop:run-program
+     command
+     :output *standard-output*
+     :error-output *error-output*)))
+
 ;; (load-source :trivial-gray-streams)
 
 ;; (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
