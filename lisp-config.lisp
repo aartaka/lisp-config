@@ -76,7 +76,6 @@
   "Quit properly."
   (uiop:quit (or code 0)))
 
-;; (asdf:load-asd (home ".config/common-lisp/trivial-gray-streams/trivial-gray-streams.asd"))
 ;; (load-source :trivial-gray-streams)
 
 ;; (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
