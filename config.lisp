@@ -78,7 +78,7 @@
 
 #-clozure
 (tpl-cmd:define-command/string (:sh :!) (command)
-  "Run shell command"
+  "Run shell command."
   (ignore-errors
     (uiop:run-program
      command
@@ -86,7 +86,7 @@
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
-  "Run shell command"
+  "Run shell command asynchronously."
   (ignore-errors
     (uiop:launch-program
      command
