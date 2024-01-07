@@ -95,7 +95,8 @@
 ;; (load-source :trivial-gray-streams)
 
 ;; (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
-;;   ((buffer :initform '())))
+;;   ((buffer :initform '())
+;;    (panicky-p :initform nil :initarg :panicky-p)))
 
 ;; (defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
 ;;   0)
@@ -103,8 +104,10 @@
 ;; (defun speak-buffer (stream)
 ;;   (ignore-errors
 ;;     (uiop:run-program
-;;      (list "espeak-ng" "--punct" "-s" "200"
-;;            (coerce (reverse (slot-value stream 'buffer)) 'string))))
+;;      `("espeak-ng" "--punct" "-s" "200"
+;;        ,@(when (slot-value stream 'panicky-p)
+;;            (list "-p" "70"))
+;;        ,(coerce (reverse (slot-value stream 'buffer)) 'string))))
 ;;   (setf (slot-value stream 'buffer) '()))
 
 ;; (defmethod trivial-gray-streams:stream-write-char ((stream talkative-stream) character)
@@ -118,16 +121,19 @@
 ;;   (speak-buffer stream))
 ;; (defmethod trivial-gray-streams:stream-force-output ((stream talkative-stream))
 ;;   (speak-buffer stream))
+;; (defmethod trivial-gray-streams:stream-clear-input ((stream talkative-stream)))
 
 ;; (defun talkative-in (stream)
 ;;   (make-echo-stream stream (make-instance 'talkative-stream)))
 ;; (defun talkative-out (stream)
 ;;   (make-broadcast-stream stream (make-instance 'talkative-stream)))
+;; (defun talkative-error (stream)
+;;   (make-broadcast-stream stream (make-instance 'talkative-stream :panicky-p t)))
 
 ;; (setf *standard-output* (talkative-out *standard-output*)
-;;       *error-output* (talkative-out *error-output*)
+;;       *error-output* (talkative-error *error-output*)
 ;;       *debug-io* (make-two-way-stream (talkative-in *debug-io*)
-;;                                       (talkative-out *debug-io*))
+;;                                       (talkative-error *debug-io*))
 ;;       *standard-input* (talkative-in *standard-input*)
 ;;       *trace-output* (talkative-out *trace-output*)
 ;;       *query-io* (make-two-way-stream (talkative-in *query-io*)
