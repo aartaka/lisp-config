@@ -82,8 +82,15 @@
   (ignore-errors
     (uiop:run-program
      command
-     :output *standard-output*
-     :error-output *error-output*)))
+     :output t :error-output )))
+
+#-clozure
+(tpl-cmd:define-command/string (:sha :&) (command)
+  "Run shell command"
+  (ignore-errors
+    (uiop:launch-program
+     command
+     :output t :error-output t)))
 
 ;; (load-source :trivial-gray-streams)
 
