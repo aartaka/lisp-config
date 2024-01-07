@@ -30,7 +30,6 @@
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
-(asdf:load-asd (home ".config/common-lisp/graven-image/graven-image.asd"))
 (load-source :graven-image)
 (use-package :graven-image)
 
@@ -68,11 +67,9 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-(asdf:load-asd (home ".config/common-lisp/trivial-toplevel-prompt/trivial-toplevel-prompt.asd"))
 (load-source :trivial-toplevel-prompt)
 (trivial-toplevel-prompt:set-toplevel-prompt "~*~a~*~@[/D~d~]~*~@[/I~*~]? ")
 
-(asdf:load-asd (home ".config/common-lisp/trivial-toplevel-commands/trivial-toplevel-commands.asd"))
 (load-source :trivial-toplevel-commands)
 
 (tpl-cmd:define-command/eval (:quit :qq) (&optional code)
