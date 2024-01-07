@@ -23,7 +23,7 @@
                     ;; Allegro:
                     #p"~/.clinit.cl"))
   (with-open-override (f file)
-    (format f "~s" '(load #p"~/.config/common-lisp/lisp-config.lisp"))))
+    (format f "~s" '(load #p"~/.config/common-lisp/config.lisp"))))
 
 ;; Completions for every impl when run with readline.
 (dolist (impl-executable '("sbcl" "ccl" "ecl" "abcl" "clisp" "alisp"))
