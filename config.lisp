@@ -125,6 +125,7 @@
 ;;   (make-broadcast-stream stream (make-instance 'talkative-stream)))
 
 ;; (setf *standard-output* (talkative-out *standard-output*)
+;;       *error-output* (talkative-out *error-output*)
 ;;       *debug-io* (make-two-way-stream (talkative-in *debug-io*)
 ;;                                       (talkative-out *debug-io*))
 ;;       *standard-input* (talkative-in *standard-input*)
