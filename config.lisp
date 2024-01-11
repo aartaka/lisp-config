@@ -82,7 +82,7 @@
   (ignore-errors
     (uiop:run-program
      command
-     :output t :error-output )))
+     :input t :output t :error-output )))
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
