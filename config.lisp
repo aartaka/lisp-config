@@ -77,12 +77,12 @@
   (uiop:quit (or code 0)))
 
 #-clozure
-(tpl-cmd:define-command/string (:sh :!) (command)
+(tpl-cmd:define-command/string (:shi :!) (command)
   "Run shell command."
   (ignore-errors
     (uiop:run-program
      command
-     :input t :output t :error-output )))
+     :input t :output t :error-output t)))
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
