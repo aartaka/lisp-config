@@ -77,12 +77,21 @@
   (uiop:quit (or code 0)))
 
 #-clozure
-(tpl-cmd:define-command/string (:shi :!) (command)
-  "Run shell command."
-  (ignore-errors
-    (uiop:run-program
-     command
-     :input t :output t :error-output t)))
+(tpl-cmd:define-command/string (:sh :!) (command)
+  "Run shell command synchronously."
+  (ignore-errors (uiop:run-program command :output t :error-output t)))
+
+#-clozure
+(tpl-cmd:define-command/string (:shi :<) (command)
+  "Run shell command with \n.\n-terminated input."
+  (with-input-from-string (s (uiop:reduce/strcat
+                              (loop for line = (read-line *standard-input*)
+                                    until (equal "." line)
+                                    collect line)))
+    (ignore-errors
+     (uiop:run-program
+      command
+      :input s :output t :error-output t))))
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
