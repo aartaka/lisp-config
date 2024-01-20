@@ -103,6 +103,8 @@ its own."
      command
      :output t :error-output t)))
 
+;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
+
 ;; (load-source :trivial-gray-streams)
 
 ;; (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
