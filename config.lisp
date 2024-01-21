@@ -72,7 +72,7 @@
 
 (load-source :trivial-toplevel-commands)
 
-(tpl-cmd:define-command/eval (:quit :qq) (&optional code)
+(tpl-cmd:define-command/eval :qq (&optional code)
   "Quit properly."
   (uiop:quit (or code 0)))
 
