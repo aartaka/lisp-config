@@ -103,6 +103,14 @@ its own."
      command
      :output t :error-output t)))
 
+(tpl-cmd:define-command/eval (:loadsys :lsd) (system)
+  "Load an ASDF SYSTEM."
+  (load-source system))
+
+(tpl-cmd:define-command/eval (:quill :ql) (system)
+  "Load an SYSTEM via Quicklisp."
+  (ql:quickload system))
+
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
 
 ;; (load-source :trivial-gray-streams)
