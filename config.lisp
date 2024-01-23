@@ -122,13 +122,18 @@ its own."
 ;; (defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
 ;;   0)
 
-;; (defun speak-buffer (stream)
+;; (defun speak-string (string &key panicky-p)
 ;;   (ignore-errors
-;;     (uiop:run-program
-;;      `("espeak-ng" "--punct" "-s" "200"
-;;        ,@(when (slot-value stream 'panicky-p)
-;;            (list "-p" "70"))
-;;        ,(coerce (reverse (slot-value stream 'buffer)) 'string))))
+;;    (uiop:run-program
+;;     `("espeak-ng" "--punct" "-s" "200"
+;;                   ,@(when panicky-p
+;;                       (list "-p" "70"))
+;;                   ,string))))
+
+;; (defun speak-buffer (stream)
+;;   (speak-string
+;;    (coerce (reverse (slot-value stream 'buffer)) 'string)
+;;    :panicky-p (slot-value stream 'panicky-p))
 ;;   (setf (slot-value stream 'buffer) '()))
 
 ;; (defmethod trivial-gray-streams:stream-write-char ((stream talkative-stream) character)
