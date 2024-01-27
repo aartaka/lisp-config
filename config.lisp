@@ -79,11 +79,11 @@
 #-clozure
 (tpl-cmd:define-command/string (:sh :!) (command)
   "Run shell command synchronously."
-  (ignore-errors (uiop:run-program
-                  command
-                  :output :interactive
-                  :error-output :interactive
-                  :input :interactive)))
+  (ignore-errors
+   (uiop:run-program command
+                     :output :interactive
+                     :error-output :interactive
+                     :input :interactive)))
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
