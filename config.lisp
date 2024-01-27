@@ -89,9 +89,9 @@
 (tpl-cmd:define-command/string (:sha :&) (command)
   "Run shell command asynchronously."
   (ignore-errors
-    (uiop:launch-program
-     command
-     :output t :error-output t)))
+   (uiop:launch-program command
+                        :output :interactive
+                        :error-output :interactive)))
 
 (tpl-cmd:define-command/eval (:loadsys :lsd) (system)
   "Load an ASDF SYSTEM."
