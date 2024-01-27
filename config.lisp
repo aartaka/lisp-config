@@ -79,21 +79,11 @@
 #-clozure
 (tpl-cmd:define-command/string (:sh :!) (command)
   "Run shell command synchronously."
-  (ignore-errors (uiop:run-program command :output t :error-output t)))
-
-#-clozure
-(tpl-cmd:define-command/string (:shi :<) (command)
-  "Run shell command with \n.\n-terminated input.
-Inspired by UNIX ed insert mode that ends with a period on the live of
-its own."
-  (with-input-from-string (s (uiop:reduce/strcat
-                              (loop for line = (read-line *standard-input*)
-                                    until (equal "." line)
-                                    collect line)))
-    (ignore-errors
-     (uiop:run-program
-      command
-      :input s :output t :error-output t))))
+  (ignore-errors (uiop:run-program
+                  command
+                  :output :interactive
+                  :error-output :interactive
+                  :input :interactive)))
 
 #-clozure
 (tpl-cmd:define-command/string (:sha :&) (command)
