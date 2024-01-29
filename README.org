@@ -7,8 +7,8 @@ This is mainly a shared config for Lisp REPLs.
 Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
 conf ends up in the proper place too.
 
-* Readline customizations
-
+* Highlights
+** Readline customizations
 Some readline completions appended from =*-completions.txt=, so that
 #+begin_src sh
   rlwrap ecl
@@ -19,7 +19,18 @@ Ends up with nice list of completions.
 # TODO: Also include implementation-specific completions, like SI:*
 # for ECL and SB-*:* for SBCL.
 
-* Graven Image Customizations
-
+** Graven Image Customizations
 Also has lots of =:around= methods for my [[https://github.com/aartaka/graven-image][Graven Image]]
 standard-enhancing library. Mainly making printouts less overwhelming.
+
+** Commands
+Convenience commands to:
+- :qq :: Quickly quit from the REPL in a portable fashion.
+- :sh/:! :: Run shell command interactively/synchronously.
+- :sha/:& :: Run shell command asynchronously.
+- :loadsys/:lsd :: Load ASDF system.
+- :quill/:ql :: Load system via Quicklisp.
+
+** Experimental "Talkative Lisp" Code
+This feeds REPL output and input to EspeakNG to speak the text. The
+plan is to turn it into a proper screenreader-ish setup.
