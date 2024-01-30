@@ -93,8 +93,12 @@
                         :output :interactive
                         :error-output :interactive)))
 
-(tpl-cmd:define-command/eval (:loadsys :lsd) (system)
+(tpl-cmd:define-command/eval (:loadsys :lsd) (system &optional asd-file)
   "Load an ASDF SYSTEM."
+  (when asd-file
+    (asdf:load-asd (etypecase asd-file
+                     (string (uiop:parse-native-namestring asd-file))
+                     (pathname asd-file))))
   (load-source system))
 
 (tpl-cmd:define-command/eval (:quill :ql) (system)
