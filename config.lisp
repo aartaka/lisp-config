@@ -30,36 +30,14 @@
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
-(load-source :graven-image)
-(use-package :graven-image)
-
-(defmacro with-useful-printing (&body body)
-  `(let ((*print-case* :downcase)
-         (*print-level* 2)
-         (*print-lines* 1)
-         (*print-length* 7)
-         (*print-circle* nil))
-     ,@body))
-
-(defmethod gimage:apropos* :around (string &optional package external-only docs-too)
-  (declare (ignorable string package external-only docs-too))
-  (with-useful-printing
-    (call-next-method)))
-
-(defmethod gimage:inspect* :around (object)
-  (declare (ignorable object))
-  (with-useful-printing
-    (call-next-method)))
-
-(defmethod gimage:describe* :around (object &optional stream respect-methods)
-  (declare (ignorable object stream respect-methods))
-  (with-useful-printing
-    (call-next-method)))
-
-(defmethod gimage:documentation* :around (object &optional doc-type)
-  "Implementations throw tantrums getting nonexistent entities' docs."
-  (declare (ignorable object doc-type))
-  (ignore-errors (call-next-method)))
+(defmacro load-after-system (system &optional file)
+  "A simplistic copy of Nyxt's macro of the same name."
+  ;; On Guix, all the SBCL FASLs are put into read-only directories,
+  ;; causing compilation errors. Using `asdf:load-source-op' helps that,
+  ;; as loading from source does not cause re-compilation.
+  `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
+     ,(when file
+        `(load ,file))))
 
 ;;; FIXME: *print-case* :downcase breaks some symbol-generation.
 (setf ;; *print-case* :downcase
@@ -67,46 +45,9 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-(load-source :trivial-toplevel-prompt)
-(trivial-toplevel-prompt:set-toplevel-prompt "~*~a~*~@[/D~d~]~*~@[/I~*~]? ")
-
-(load-source :trivial-toplevel-commands)
-
-(tpl-cmd:define-command/eval :qq (&optional code)
-  "Quit properly."
-  (uiop:quit (or code 0)))
-
-#-clozure
-(tpl-cmd:define-command/string (:sh :!) (command)
-  "Run shell command synchronously."
-  (ignore-errors
-   (uiop:run-program command
-                     :output :interactive
-                     :error-output :interactive
-                     :input :interactive)))
-
-#-clozure
-(tpl-cmd:define-command/string (:sha :&) (command)
-  "Run shell command asynchronously."
-  (ignore-errors
-   (uiop:launch-program command
-                        :output :interactive
-                        :error-output :interactive)))
-
-(tpl-cmd:define-command/eval (:loadsys :lsd) (system &optional asd-file)
-  "Load an ASDF SYSTEM."
-  (when asd-file
-    (asdf:load-asd (etypecase asd-file
-                     (string (uiop:parse-native-namestring asd-file))
-                     (pathname asd-file))))
-  (load-source system))
-
-(tpl-cmd:define-command/eval (:quill :ql) (system)
-  "Load an SYSTEM via Quicklisp."
-  (ql:quickload system))
-
-;; TODO: Directory change command (:cd, :chdir, :pwd, :cwd, :dir?)
-;; TODO: Pager command (:page, :less, :head?)
+(load-after-system :graven-image "/home/aartaka/.config/common-lisp/gimage.lisp")
+(load-after-system :trivial-toplevel-prompt "/home/aartaka/.config/common-lisp/prompt.lisp")
+(load-after-system :trivial-toplevel-commands "/home/aartaka/.config/common-lisp/commands.lisp")
 
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
 
