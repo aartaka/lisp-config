@@ -37,5 +37,20 @@
   "Load an SYSTEM via Quicklisp."
   (ql:quickload system))
 
+(define-command/raw (:directory :dir) (#+clozure &optional
+                                       dir)
+  "(Switch to DIR, if provided) and list all the files in the current directory."
+  (unless (uiop:emptyp dir)
+    (uiop:chdir (merge-pathnames
+                 (uiop:parse-native-namestring dir)
+                 (user-homedir-pathname))))
+  (format t "Directory ~a:~{~&~a/~}~{~&~a~}"
+          (uiop:getcwd)
+          (mapcar (lambda (d)
+                    (car (last (pathname-directory d))))
+                  (uiop:subdirectories (uiop:getcwd)))
+          (mapcar #'file-namestring
+                  (uiop:directory-files (uiop:getcwd)))))
+
 ;; TODO: Directory change command (:cd, :chdir, :pwd, :cwd, :dir?)
 ;; TODO: Pager command (:page, :less, :head?)
