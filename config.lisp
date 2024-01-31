@@ -105,6 +105,9 @@
   "Load an SYSTEM via Quicklisp."
   (ql:quickload system))
 
+;; TODO: Directory change command (:cd, :chdir, :pwd, :cwd, :dir?)
+;; TODO: Pager command (:page, :less, :head?)
+
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
 
 ;; (load-source :trivial-gray-streams)
