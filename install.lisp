@@ -33,11 +33,11 @@
     (flet ((echo-freshline (file)
              (princ (uiop:read-file-string file) f)
              (fresh-line f)))
-      (echo-freshline #p"~/.config/common-lisp/standard-completions.txt")
-      (echo-freshline #p"~/.config/common-lisp/keyword-completions.txt")
-      (echo-freshline #p"~/.config/common-lisp/gimage-completions.txt")
-      (echo-freshline #p"~/.config/common-lisp/uiop-completions.txt")
-      (echo-freshline #p"~/.config/common-lisp/asdf-completions.txt"))))
+      (echo-freshline #p"~/.config/common-lisp/competions/standard-completions.txt")
+      (echo-freshline #p"~/.config/common-lisp/competions/keyword-completions.txt")
+      (echo-freshline #p"~/.config/common-lisp/competions/gimage-completions.txt")
+      (echo-freshline #p"~/.config/common-lisp/competions/uiop-completions.txt")
+      (echo-freshline #p"~/.config/common-lisp/competions/asdf-completions.txt"))))
 
 (let ((inputrc (uiop:merge-pathnames* ".inputrc" (user-homedir-pathname))))
   (uiop:copy-file #p"~/.config/common-lisp/inputrc"
