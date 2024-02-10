@@ -27,11 +27,14 @@
 
 (tpl-cmd:define-command/eval (:loadsys :lsd) (system &optional asd-file)
   "Load an ASDF SYSTEM."
-  (when asd-file
-    (asdf:load-asd (etypecase asd-file
-                     (string (uiop:parse-native-namestring asd-file))
-                     (pathname asd-file))))
-  (load-source system))
+  (let ((system (if (asdf:find-system system nil)
+                    system
+                    (intern (package-name (find-package system)) :keyword))))
+    (when asd-file
+      (asdf:load-asd (etypecase asd-file
+                       (string (uiop:parse-native-namestring asd-file))
+                       (pathname asd-file))))
+    (load-source system)))
 
 (tpl-cmd:define-command/eval (:quill :ql) (system)
   "Load an SYSTEM via Quicklisp."
