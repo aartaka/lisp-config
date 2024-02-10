@@ -10,7 +10,9 @@
 (defun speak-string (string &key panicky-p)
   (ignore-errors
    (uiop:run-program
-    `("espeak-ng" "--punct" "-s" "200"
+    `("espeak-ng" "--punct"
+                  "-s" "200"
+                  "-v" "en-us"
                   ,@(when panicky-p
                       (list "-p" "70"))
                   ,string))))
