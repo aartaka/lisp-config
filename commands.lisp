@@ -57,5 +57,4 @@
           (mapcar #'file-namestring
                   (uiop:directory-files (uiop:getcwd)))))
 
-;; TODO: Directory change command (:cd, :chdir, :pwd, :cwd, :dir?)
 ;; TODO: Pager command (:page, :less, :head?)
