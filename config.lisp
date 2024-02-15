@@ -1,6 +1,11 @@
 (defun home (path)
   (merge-pathnames path (user-homedir-pathname)))
 
+(defun config (path)
+  "Resolve the PATH against Lisp config dir.
+Useful for dependency-based config files."
+  (merge-pathnames path (home ".config/common-lisp/")))
+
 ;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
 (let ((quicklisp-init (home "quicklisp/setup.lisp")))
@@ -45,8 +50,8 @@
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100))
 
-(load-after-system :graven-image "/home/aartaka/.config/common-lisp/gimage.lisp")
-(load-after-system :trivial-toplevel-prompt "/home/aartaka/.config/common-lisp/prompt.lisp")
-(load-after-system :trivial-toplevel-commands "/home/aartaka/.config/common-lisp/commands.lisp")
+(load-after-system :graven-image (config "gimage.lisp"))
+(load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
+(load-after-system :trivial-toplevel-commands (config "commands.lisp"))
 
-(load-after-system :trivial-gray-streams "/home/aartaka/.config/common-lisp/talkative.lisp")
+(load-after-system :trivial-gray-streams (config "talkative.lisp"))
