@@ -30,14 +30,14 @@
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
-(defmacro load-after-system (system &optional file)
+(defun load-after-system (system &optional file)
   "A simplistic copy of Nyxt's macro of the same name."
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.
-  `(when (ignore-errors (asdf:oos 'asdf:load-source-op ,system))
-     ,(when file
-        `(load ,file))))
+  (when (ignore-errors (asdf:oos 'asdf:load-source-op system))
+    (when file
+      (load file))))
 
 ;;; FIXME: *print-case* :downcase breaks some symbol-generation.
 (setf ;; *print-case* :downcase
