@@ -1,3 +1,5 @@
+(in-package :cl-user)
+
 (tpl-cmd:define-command/eval :qq (&optional code)
   "Quit properly."
   (uiop:quit (or code 0)))

@@ -1,3 +1,5 @@
+(in-package :cl-user)
+
 (use-package :graven-image)
 
 (defmacro with-useful-printing (&body body)

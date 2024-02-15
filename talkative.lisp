@@ -1,3 +1,5 @@
+(in-package :cl-user)
+
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
 
 (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
