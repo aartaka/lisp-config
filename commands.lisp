@@ -1,14 +1,16 @@
 (in-package :cl-user)
 
-(tpl-cmd:define-command/eval :qq (&optional code)
+(use-package :trivial-toplevel-commands)
+
+(define-command/eval :qq (&optional code)
   "Quit properly."
   (uiop:quit (or code 0)))
 
 (defmacro define-command/raw (&rest args)
   `(#-clozure
-    tpl-cmd:define-command/string
+    define-command/string
     #+clozure
-    tpl-cmd:define-command/eval
+    define-command/eval
     ,@args))
 
 (define-command/raw (:sh :!) (command)
@@ -27,7 +29,7 @@
                         :output :interactive
                         :error-output :interactive)))
 
-(tpl-cmd:define-command/eval (:loadsys :lsd) (system &optional asd-file)
+(define-command/eval (:loadsys :lsd) (system &optional asd-file)
   "Load an ASDF SYSTEM."
   (let ((system (if (asdf:find-system system nil)
                     system
@@ -38,7 +40,7 @@
                        (pathname asd-file))))
     (load-source system)))
 
-(tpl-cmd:define-command/eval (:quill :ql) (system)
+(define-command/eval (:quill :ql) (system)
   "Load an SYSTEM via Quicklisp."
   (ql:quickload system))
 
@@ -57,7 +59,7 @@
           (mapcar #'file-namestring
                   (uiop:directory-files (uiop:getcwd)))))
 
-(tpl-cmd:define-command/read (:page :pg) (&rest forms)
+(define-command (:page :pg) (&rest forms)
   "Page the FORMS.
 
 - If FORMS is a single string, send it to the shell and page program
