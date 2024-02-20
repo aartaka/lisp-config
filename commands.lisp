@@ -59,6 +59,7 @@
           (mapcar #'file-namestring
                   (uiop:directory-files (uiop:getcwd)))))
 
+;; TODO: Page the string if FORMS return a string instead of printing.
 (define-command (:page :pg) (&rest forms)
   "Page the FORMS.
 
