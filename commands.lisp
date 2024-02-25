@@ -47,18 +47,24 @@
 (define-command/raw (:directory :dir) (#+clozure &optional
                                        dir)
   "(Switch to DIR, if provided) and list all the files in the current directory."
-  (unless (uiop:emptyp dir)
-    (uiop:chdir (merge-pathnames
-                 (uiop:parse-native-namestring dir)
-                 (user-homedir-pathname))))
-  (format t "Directory ~a~:[~;:~{~&~a/~}~{~&~a~}~]"
-          (uiop:getcwd)
-          (uiop:emptyp dir)
-          (mapcar (lambda (d)
-                    (car (last (pathname-directory d))))
-                  (uiop:subdirectories (uiop:getcwd)))
-          (mapcar #'file-namestring
-                  (uiop:directory-files (uiop:getcwd)))))
+  (block dir
+    (let ((resolved-dir (merge-pathnames
+                         (uiop:parse-native-namestring dir)
+                         (uiop:getcwd))))
+      (unless (uiop:directory-exists-p resolved-dir)
+        (if (yes-or-no-p* "Create a ~a directory?" dir)
+            (ensure-directories-exist (uiop:ensure-directory-pathname resolved-dir))
+            (return-from dir)))
+      (unless (uiop:emptyp dir)
+        (uiop:chdir resolved-dir)))
+    (format t "Directory ~a~:[~;:~{~&~a/~}~{~&~a~}~]"
+            (uiop:getcwd)
+            (uiop:emptyp dir)
+            (mapcar (lambda (d)
+                      (car (last (pathname-directory d))))
+                    (uiop:subdirectories (uiop:getcwd)))
+            (mapcar #'file-namestring
+                    (uiop:directory-files (uiop:getcwd))))))
 
 ;; TODO: Page the string if FORMS return a string instead of printing.
 (define-command (:page :pg) (&rest forms)
