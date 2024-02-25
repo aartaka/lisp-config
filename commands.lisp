@@ -75,10 +75,10 @@
 - If FORMS is a list of Lisp forms, evaluate them and page the
   *standard-output* used while evaluating."
   (let* ((to-scroll 10)
-         (output (with-output-to-string (*standard-output*)
-                   (typecase (first forms)
-                     (string (uiop:run-program (first forms) :output t))
-                     (t (eval `(progn ,@forms))))))
+         (output (typecase (first forms)
+                   (string (uiop:run-program (first forms) :output '(:string :stripped t)))
+                   (t (with-output-to-string (*standard-output*)
+                        (eval `(progn ,@forms))))))
          (lines (uiop:split-string output :separator '(#\Newline))))
     (labels ((print-page ()
                (when lines
