@@ -66,6 +66,12 @@
             (mapcar #'file-namestring
                     (uiop:directory-files (uiop:getcwd))))))
 
+(defvar *page-content* '() "Currently scrolled with :page.")
+(defvar *page-index* 0 "Index into `*paged-content*'.")
+
+(defun split-lines (string)
+  (uiop:split-string string :separator '(#\Newline)))
+
 ;; TODO: Page the string if FORMS return a string instead of printing.
 (define-command (:page :pg) (&rest forms)
   "Page the FORMS.
@@ -74,25 +80,16 @@
   output.
 - If FORMS is a list of Lisp forms, evaluate them and page the
   *standard-output* used while evaluating."
-  (let* ((to-scroll 10)
-         (output (typecase (first forms)
-                   (string (uiop:run-program (first forms) :output '(:string :stripped t)))
-                   (t (with-output-to-string (*standard-output*)
-                        (eval `(progn ,@forms))))))
-         (lines (uiop:split-string output :separator '(#\Newline))))
-    (labels ((print-page ()
-               (when lines
-                 (loop for i below (min to-scroll (length lines))
-                       do (format t "~&~a" (elt lines i))
-                       finally (setf lines (nthcdr to-scroll lines))))))
-      (loop initially (print-page)
-            while lines
-            for read = (read-line)
-            when (uiop:emptyp read)
-              do (format t "~&~a" (first lines))
-              and do (setf lines (rest lines))
-            else when (char= #\Space (elt read 0))
-                   do (print-page)
-            else when (char-equal #\q (elt read 0))
-                   do (return nil)))))
-
+  (typecase (first forms)
+    (integer (setf *page-index* (first forms)))
+    (string (setf *page-content*
+                  (split-lines (uiop:run-program (first forms) :output '(:string :stripped t)))))
+    (cons (setf *page-content*
+                (split-lines
+                 (with-output-to-string (*standard-output*)
+                   (eval `(progn ,@forms)))))))
+  (loop for i from *page-index*
+          below (min (+ *page-index* 10)
+                     (length *page-content*))
+        do (format t "~&~a" (elt *page-content* i))
+        do (incf *page-index*)))
