@@ -51,8 +51,9 @@
     (uiop:chdir (merge-pathnames
                  (uiop:parse-native-namestring dir)
                  (user-homedir-pathname))))
-  (format t "Directory ~a:~{~&~a/~}~{~&~a~}"
+  (format t "Directory ~a~:[~;:~{~&~a/~}~{~&~a~}~]"
           (uiop:getcwd)
+          (uiop:emptyp dir)
           (mapcar (lambda (d)
                     (car (last (pathname-directory d))))
                   (uiop:subdirectories (uiop:getcwd)))
