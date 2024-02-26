@@ -82,12 +82,19 @@
   *standard-output* used while evaluating."
   (typecase (first forms)
     (integer (setf *page-index* (first forms)))
-    (string (setf *page-content*
-                  (split-lines (uiop:run-program (first forms) :output '(:string :stripped t)))))
-    (cons (setf *page-content*
-                (split-lines
-                 (with-output-to-string (*standard-output*)
-                   (eval `(progn ,@forms)))))))
+    (string
+     (setf *page-content*
+           (split-lines (uiop:run-program (first forms) :output '(:string :stripped t))))
+     (format t "Paging ~s, ~d lines" forms (length *page-content*)))
+    (pathname
+     (setf *page-content* (uiop:read-file-lines (first forms)))
+     (format t "Paging ~s, ~d lines" forms (length *page-content*)))
+    (cons
+     (setf *page-content*
+           (split-lines
+            (with-output-to-string (*standard-output*)
+              (eval `(progn ,@forms)))))
+     (format t "Paging ~s, ~d lines" forms (length *page-content*))))
   (loop for i from *page-index*
           below (min (+ *page-index* 10)
                      (length *page-content*))
