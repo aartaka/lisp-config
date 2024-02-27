@@ -79,7 +79,8 @@
 - If FORMS is a single string, send it to the shell and page program
   output.
 - If FORMS is a list of Lisp forms, evaluate them and page the
-  *standard-output* used while evaluating."
+  *standard-output* used while evaluating.
+- If FORMS is a single pathname, page the file contents."
   (typecase (first forms)
     (integer (setf *page-index* (first forms)))
     (string
