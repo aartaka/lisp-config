@@ -64,7 +64,8 @@
                       (car (last (pathname-directory d))))
                     (uiop:subdirectories (uiop:getcwd)))
             (mapcar #'file-namestring
-                    (uiop:directory-files (uiop:getcwd))))))
+                    (uiop:directory-files (uiop:getcwd))))
+    (values)))
 
 (defvar *page-content* '() "Currently scrolled with :page.")
 (defvar *page-index* 0 "Index into `*paged-content*'.")
@@ -100,4 +101,5 @@
           below (min (+ *page-index* 10)
                      (length *page-content*))
         do (format t "~&~a" (elt *page-content* i))
-        do (incf *page-index*)))
+        do (incf *page-index*))
+  (values))
