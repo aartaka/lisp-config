@@ -55,3 +55,16 @@ Useful for dependency-based config files."
 (load-after-system :trivial-toplevel-commands (config "commands.lisp"))
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
+
+(defun question-reader (stream char arg)
+  (declare (ignorable char arg))
+  (let ((val (read stream nil nil t)))
+    (typecase val
+      (keyword (apropos* val t t))
+      (symbol (format t "~&~a" (lambda-list* val)))
+      (list (format t "~&~a" (documentation* (first val) (second val)))))
+    (terpri)
+    (values)))
+
+(set-dispatch-macro-character
+ #\# #\? #'question-reader)
