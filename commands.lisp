@@ -83,10 +83,16 @@
   *standard-output* used while evaluating.
 - If FORMS is a single pathname, page the file contents."
   (typecase (first forms)
-    (integer (setf *page-index* (first forms)))
-    (string
+    (integer
+     (setf *page-index* (first forms))
+     (format t "Paged line ~d" *page-index*))
+    (null
+     nil)
+    ((eql t)
+     (format t "Paged line ~d" *page-index*))
+    ((or symbol string)
      (setf *page-content*
-           (split-lines (uiop:run-program (first forms) :output '(:string :stripped t))))
+           (split-lines (uiop:run-program (string-downcase (string (first forms))) :output '(:string :stripped t))))
      (format t "Paging ~s, ~d lines" forms (length *page-content*)))
     (pathname
      (setf *page-content* (uiop:read-file-lines (first forms)))
