@@ -13,3 +13,6 @@
 [submodule "closer-mop"]
 	path = closer-mop
 	url = https://github.com/pcostanza/closer-mop
+[submodule "arrow-macros"]
+	path = arrow-macros
+	url = https://github.com/hipeta/arrow-macros
