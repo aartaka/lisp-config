@@ -40,9 +40,9 @@
                        (pathname asd-file))))
     (load-source system)))
 
-(define-command/eval (:quill :ql) (system)
+(define-command/eval (:quill :ql) (&rest systems)
   "Load an SYSTEM via Quicklisp."
-  (ql:quickload system))
+  (ql:quickload systems))
 
 (define-command/raw (:directory :dir) (#+clozure &optional
                                        dir)
