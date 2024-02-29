@@ -109,7 +109,7 @@
               (eval `(progn ,@forms)))))
      (format t "Paging ~s, ~d lines" forms (length *page-content*))))
   (loop for i from *page-index*
-          below (min (+ *page-index* 10)
+          below (min (+ *page-index* (or *print-lines* 10))
                      (length *page-content*))
         do (format t "~&~a" (elt *page-content* i))
         do (incf *page-index*))
