@@ -48,7 +48,8 @@ Useful for dependency-based config files."
 (setf ;; *print-case* :downcase
       *print-circle* nil
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
-                               100))
+                               100)
+      *print-lines* 5)
 
 (load-after-system :graven-image (config "gimage.lisp"))
 (load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
