@@ -57,6 +57,9 @@ Useful for dependency-based config files."
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
 
+(load-source :arrow-macros)
+(use-package :arrow-macros)
+
 (defun question-reader (stream char arg)
   (declare (ignorable char arg))
   (let ((val (read stream nil nil t)))
