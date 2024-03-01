@@ -72,3 +72,5 @@ Useful for dependency-based config files."
 
 (set-dispatch-macro-character
  #\# #\? #'question-reader)
+
+(load (config "ed.lisp"))
