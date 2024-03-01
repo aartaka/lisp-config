@@ -1,4 +1,6 @@
-(in-package :cl-user)
+(uiop:define-package :commands
+  (:use :cl :graven-image))
+(in-package :commands)
 
 (use-package :trivial-toplevel-commands)
 
