@@ -103,7 +103,8 @@ controllable from CL (and Talkative)."
                                               (mapcar (lambda (s)
                                                         (string-downcase (string s)))
                                                       forms))
-                                          :output '(:string :stripped t))))
+                                          :output '(:string :stripped t)
+                                          :error t)))
      (format t "Paging ~s, ~d lines" forms (length *page-content*)))
     (pathname
      (setf *page-content* (uiop:read-file-lines (first forms)))
