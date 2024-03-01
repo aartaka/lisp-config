@@ -30,6 +30,18 @@ Convenience commands to:
 - :sha/:& :: Run shell command asynchronously.
 - :loadsys/:lsd :: Load ASDF system.
 - :quill/:ql :: Load system via Quicklisp.
+- :dir :: Change the directory and print its contents.
+- :page :: Page through the contents of the file or forms' output.
+
+** Experimental editor
+Command-based editor with
+- :ed[it] :: as the entry point to edit file or shell command output.
+- :ep[rint] :: to print the current line.
+- :ez[oom] :: to scroll through the buffer.
+- :ea[ppend] and :ei[nsert] :: to add new text.
+- :ef[ind] :: for text search.
+- :ek[ill] and :ey[ank] :: for clipboard management and text deletion.
+- :es[ave] :: to save to file.
 
 ** Experimental "Talkative Lisp" Code
 This feeds REPL output and input to EspeakNG to speak the text. The
