@@ -49,7 +49,7 @@ controllable from CL (and Talkative)."
     (load-source system)))
 
 (define-command/eval (:quill :ql) (&rest systems)
-  "Load an SYSTEM via Quicklisp."
+  "Load a SYSTEM via Quicklisp."
   (ql:quickload systems))
 
 (define-command/raw (:directory :dir) (#+clozure &optional
