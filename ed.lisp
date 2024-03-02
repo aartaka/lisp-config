@@ -48,14 +48,14 @@ TO-EDIT might be one of:
                         (min head (length %ed-buffer)))))
        (print-line nil)))))
 
-(define-command (:ekill :ek) (&optional that-many-lines)
+(define-command (:eject :ej) (&optional that-many-lines)
   "Remove THAT-MANY-LINES starting from (and including) the current one."
   (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index that-many-lines)
                                                         (length %ed-buffer)))
         %ed-buffer (append (subseq %ed-buffer 0 %ed-index)
                            (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
 
-(define-command (:eyank :ey) (&optional before)
+(define-command (:egress :eg) (&optional before)
   "Paste the last :ekill-ed text to BEFORE or after the current line."
   (setf %ed-buffer
         (append (subseq %ed-buffer 0 (if before
@@ -67,7 +67,7 @@ TO-EDIT might be one of:
                                        (1+ %ed-index))))))
 
 (let ((%query% nil))
-  (define-command (:efind :ef) (&optional query)
+  (define-command (:eavesdrop :ea) (&optional query)
     "Search for QUERY (or last used query, if not provided) in the buffer."
     (setf %ed-index
           (or (position-if (lambda (line)
@@ -84,7 +84,7 @@ TO-EDIT might be one of:
             collect line)
       (uiop:ensure-list line)))
 
-(define-command/raw (:eappend :ea) (line)
+(define-command/raw (:effuse :ef) (line)
   "Add new text after the current line."
   (let ((lines (line-or-read line)))
     (setf %ed-buffer
@@ -93,7 +93,7 @@ TO-EDIT might be one of:
                   (subseq %ed-buffer (1+ %ed-index))))
     (incf %ed-index)))
 
-(define-command/raw (:einsert :ei) (line)
+(define-command/raw (:embed :em) (line)
   "Add new text before the current line."
   (let ((lines (line-or-read line)))
     (setf %ed-buffer
@@ -101,7 +101,7 @@ TO-EDIT might be one of:
                   lines
                   (subseq %ed-buffer (max 0 (1- %ed-index)))))))
 
-(define-command (:esave :es) (&optional file)
+(define-command (:enact :en) (&optional file)
   "Save the contents of the editor buffer to FILE or current file."
   (when file
     (setf %ed-file file))
@@ -113,14 +113,14 @@ TO-EDIT might be one of:
   (format t "~&~:[~*~a~;~d: ~s~]"
           detail %ed-index (elt %ed-buffer %ed-index)))
 
-(define-command (:eprint :ep) (&optional detail)
+(define-command (:examine :ex) (&optional detail)
   "Print the current line depending on DETAIL.
 DETAIL is one of
 - T for listing with line number and standard printing.
 - NIL (default) for regular human-readable printing."
   (print-line detail))
 
-(define-command (:ezoom :ez) (&optional detail)
+(define-command (:eye :ey) (&optional detail)
   "Scroll the editor buffer down `*print-lines*' times, printing them.
 Printing depends on DETAIL, as in :eprint."
   (loop for i below (or *print-lines* 5)
@@ -128,6 +128,6 @@ Printing depends on DETAIL, as in :eprint."
           do (print-line detail)
           and do (incf %ed-index)))
 
-(define-command (:equal :eq) ()
+(define-command (:etch :et) ()
   "Print the current line number."
   (print %ed-index))
