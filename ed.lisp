@@ -166,8 +166,10 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
   "Print the current line."
   (print-line))
 
-(define-command (:eye :ey) ()
-  "Scroll the editor buffer down `*print-lines*' times, printing them."
+(define-command (:eye :ey) (&optional index)
+  "Scroll the editor buffer down `*print-lines*' times, printing them.
+Start from INDEX."
+  (setf %ed-index (or index %ed-index))
   (loop for i below (or *print-lines* 5)
         while (<= %ed-index (1- (length %ed-buffer)))
         do (print-line)
