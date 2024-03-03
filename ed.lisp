@@ -126,6 +126,14 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
                   lines
                   (subseq %ed-buffer %ed-index)))))
 
+(define-command (:erase :er) (&rest forms)
+  "Replace the part of current contents with new FORMS."
+  (let ((lines (forms-or-read forms)))
+    (setf %ed-buffer
+          (append (subseq %ed-buffer 0 %ed-index)
+                  lines
+                  (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
+
 (define-command (:enact :en) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object."
   (typecase (or object %ed-object)
