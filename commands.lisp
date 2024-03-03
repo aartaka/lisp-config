@@ -46,7 +46,7 @@ controllable from CL (and Talkative)."
       (asdf:load-asd (etypecase asd-file
                        (string (uiop:parse-native-namestring asd-file))
                        (pathname asd-file))))
-    (load-source system)))
+    (cl-user::load-source system)))
 
 (define-command/eval (:quill :ql) (&rest systems)
   "Load a SYSTEM via Quicklisp."
