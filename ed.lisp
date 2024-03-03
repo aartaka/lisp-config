@@ -130,22 +130,24 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
   (typecase (or object %ed-object)
     (pathname
      (with-open-file (s %ed-object :direction :output)
-       (if (member (pathname-type %ed-object)
-                   '("lisp" "lsp" "scm") ;; Scheme!?
-                   :test #'string=)
-           (progn
-             ;; Arbitrarily big number. No one will have a 100-levels deep
-             ;; Lisp form, right? Right?
-             (buffer-up 100)
-             (loop for form in %ed-buffer
-                   do (let ((*print-lines* nil)
-                            (*print-length* nil)
-                            (*print-level* nil)
-                            (*print-case* :downcase))
-                        (prin1 form s))))
-           (loop for string in %ed-buffer
-                 do (write-sequence (string string) s)
-                 do (terpri s)))))
+       (let ((*print-lines* nil)
+             (*print-length* nil)
+             (*print-level* nil)
+             (*print-case* :downcase))
+         (if (member (pathname-type %ed-object)
+                     '("lisp" "lsp" "scm") ;; Scheme!?
+                     :test #'string=)
+             (progn
+               ;; Arbitrarily big number. No one will have a 100-levels deep
+               ;; Lisp form, right? Right?
+               (buffer-up 100)
+               (loop for form in %ed-buffer
+                     do (prin1 form s)))
+             (loop for string in %ed-buffer
+                   do (if (stringp string)
+                          (write-sequence string s)
+                          (prin1 string s))
+                   do (terpri s))))))
     (function
      (buffer-up 100)
      (compile (gimage:function-name* %ed-object) %ed-buffer))))
