@@ -130,13 +130,14 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
                    '("lisp" "lsp" "scm") ;; Scheme!?
                    :test #'string=)
            (progn
-             ;; Arbitrary big number. No one will have a 100-levels deep
+             ;; Arbitrarily big number. No one will have a 100-levels deep
              ;; Lisp form, right? Right?
              (buffer-up 100)
              (loop for form in %ed-buffer
                    do (let ((*print-lines* nil)
                             (*print-length* nil)
-                            (*print-level* nil))
+                            (*print-level* nil)
+                            (*print-case* :downcase))
                         (prin1 form s))))
            (loop for string in %ed-buffer
                  do (write-sequence string s)
