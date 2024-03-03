@@ -69,12 +69,11 @@ TO-EDIT might be one of:
 (let ((%query% nil))
   (define-command (:eavesdrop :ea) (&optional query)
     "Search for QUERY (or last used query, if not provided) in the buffer."
-    (setf %ed-index
-          (or (position-if (lambda (line)
-                             (search (or query %query%) line :test #'equal))
-                           %ed-buffer
-                           :start %ed-index)
-              %ed-index)
+    (setf %ed-index (or (position-if (lambda (line)
+                                       (search (or query %query%) line :test #'equal))
+                                     %ed-buffer
+                                     :start %ed-index)
+                        %ed-index)
           %query% (or query %query%))))
 
 (defun line-or-read (line)
