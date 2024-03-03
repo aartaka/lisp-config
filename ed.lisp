@@ -41,11 +41,12 @@ TO-EDIT might be one of:
                             :output '(:string :stripped t))))))
       ((or (cons (eql function))
            function)
-       (setf %ed-object (typecase head
-                          (cons (fdefinition (second head)))
-                          (function head))
-             %ed-index 0
-             %ed-buffer (gimage:function-lambda-expression* (second head))))
+       (let ((fn (typecase head
+                   (cons (fdefinition (second head)))
+                   (function head))))
+         (setf %ed-object fn
+               %ed-index 0
+               %ed-buffer (gimage:function-lambda-expression* fn))))
       (cons
        (setf %ed-index 0
              %ed-buffer (eval `(progn ,@to-edit))))
