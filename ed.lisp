@@ -159,7 +159,8 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
                    do (terpri s))))))
     (function
      (buffer-up 100)
-     (compile (gimage:function-name* %ed-object) %ed-buffer))))
+     (eval `(setf (fdefinition (quote ,(gimage:function-name* %ed-object)))
+                  ,%ed-buffer)))))
 
 (define-command (:examine :ex) ()
   "Print the current line."
