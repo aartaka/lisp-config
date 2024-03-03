@@ -12,8 +12,9 @@
 (defvar %ed-clipboard nil)
 
 (defun print-line ()
-  (format t "~&~d: ~s"
-           %ed-index (elt %ed-buffer %ed-index)))
+  (when %ed-buffer
+    (format t "~&~d: ~s"
+            %ed-index (elt %ed-buffer %ed-index))))
 
 (define-command (:edit :ed) (&rest to-edit)
   "Edit the TO-EDIT data.
@@ -27,7 +28,8 @@ TO-EDIT might be one of:
        (setf %ed-object head
              %ed-index 0
              %ed-buffer (uiop:read-file-lines
-                         (uiop:merge-pathnames* (first to-edit) (uiop:getcwd)))))
+                         (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
+                         :if-does-not-exist :create)))
       ((or string symbol)
        (unless (uiop:emptyp head)
          (setf %ed-index 0
@@ -108,9 +110,11 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
   "Add new text after the current line."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
-          (append (subseq %ed-buffer 0 (1+ %ed-index))
+          (append (when %ed-buffer
+                    (subseq %ed-buffer 0 (1+ %ed-index)))
                   lines
-                  (subseq %ed-buffer (1+ %ed-index))))
+                  (when %ed-buffer
+                    (subseq %ed-buffer (1+ %ed-index)))))
     (incf %ed-index)))
 
 (define-command (:embed :em) (&rest forms)
@@ -140,7 +144,7 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
                             (*print-case* :downcase))
                         (prin1 form s))))
            (loop for string in %ed-buffer
-                 do (write-sequence string s)
+                 do (write-sequence (string string) s)
                  do (terpri s)))))
     (function
      (buffer-up 100)
