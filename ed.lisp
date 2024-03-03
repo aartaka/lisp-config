@@ -58,7 +58,7 @@ TO-EDIT might be one of:
 
 (define-command (:eject :ej) (&optional that-many-lines)
   "Remove THAT-MANY-LINES starting from (and including) the current one."
-  (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index that-many-lines)
+  (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index (or that-many-lines 1))
                                                         (length %ed-buffer)))
         %ed-buffer (append (subseq %ed-buffer 0 %ed-index)
                            (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
