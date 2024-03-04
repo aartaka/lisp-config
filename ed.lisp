@@ -178,3 +178,7 @@ TO-EDIT might be one of:
 (define-command (:etch :et) ()
   "Print the current line number."
   (print %ed-index))
+
+(define-command (:eval :ev) ()
+  "Evaluate the current indexed form."
+  (print (eval (elt %ed-buffer %ed-index))))
