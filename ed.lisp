@@ -12,9 +12,13 @@
 (defvar %ed-clipboard nil)
 
 (defun print-line (&optional detail)
-  (when %ed-buffer
-    (format t "~&~:[~*~a~;~d: ~s~]"
-            detail %ed-index (elt %ed-buffer %ed-index))))
+  (let ((*print-lines* 1)
+        (*print-length* 5)
+        (*print-level* 2)
+        (*print-case* :downcase))
+    (when %ed-buffer
+      (format t "~&~:[~*~a~;~d: ~s~]"
+              detail %ed-index (elt %ed-buffer %ed-index)))))
 
 (define-command (:edit :ed) (&rest to-edit)
   "Edit the TO-EDIT data.
