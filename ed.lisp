@@ -171,6 +171,8 @@ TO-EDIT might be one of:
         while (<= %ed-index (1- (length %ed-buffer)))
         do (print-line details)
         do (incf %ed-index))
+  (when (< %ed-index (1- (length %ed-buffer)))
+    (print-line details))
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
 
 (define-command (:etch :et) ()
