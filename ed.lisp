@@ -11,10 +11,10 @@
 (defvar %ed-index 0)
 (defvar %ed-clipboard nil)
 
-(defun print-line ()
+(defun print-line (&optional detail)
   (when %ed-buffer
-    (format t "~&~d: ~s"
-            %ed-index (elt %ed-buffer %ed-index))))
+    (format t "~&~:[~*~a~;~d: ~s~]"
+            detail %ed-index (elt %ed-buffer %ed-index))))
 
 (define-command (:edit :ed) (&rest to-edit)
   "Edit the TO-EDIT data.
@@ -94,8 +94,7 @@ TO-EDIT might be one of:
                  %ed-index index)))
 
 (define-command (:escape :es) (&optional that-many-levels)
-  "Get back to the previous editor state, replacing the previously edited part.
-In case there's THAT-MANY-LEVELS, pop several levels up."
+  "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part."
   (buffer-up (or that-many-levels 1))
   (print-line))
 
@@ -108,7 +107,7 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
 
 ;; TODO: Better behavior for Lisp vs. Line forms.
 (define-command (:effuse :ef) (&rest forms)
-  "Add new text after the current line."
+  "Add new form/FORMS after the current line."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (when %ed-buffer
@@ -119,7 +118,7 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
     (incf %ed-index)))
 
 (define-command (:embed :em) (&rest forms)
-  "Add new text before the current line."
+  "Add new form/FORMS before the current line."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (subseq %ed-buffer 0 %ed-index)
@@ -127,7 +126,7 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
                   (subseq %ed-buffer %ed-index)))))
 
 (define-command (:erase :er) (&rest forms)
-  "Replace the part of current contents with new FORMS."
+  "Replace the part of current contents with new form/FORMS."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (subseq %ed-buffer 0 %ed-index)
@@ -162,17 +161,15 @@ In case there's THAT-MANY-LEVELS, pop several levels up."
      (eval `(setf (fdefinition (quote ,(gimage:function-name* %ed-object)))
                   ,%ed-buffer)))))
 
-(define-command (:examine :ex) ()
+(define-command (:examine :ex) (&optional details)
   "Print the current line."
-  (print-line))
+  (print-line details))
 
-(define-command (:eye :ey) (&optional index)
-  "Scroll the editor buffer down `*print-lines*' times, printing them.
-Start from INDEX."
-  (setf %ed-index (or index %ed-index))
+(define-command (:eye :ey) (&optional details)
+  "Scroll the editor buffer down `*print-lines*' times, printing them with DETAILs."
   (loop for i below (or *print-lines* 5)
         while (<= %ed-index (1- (length %ed-buffer)))
-        do (print-line)
+        do (print-line details)
         do (incf %ed-index))
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
 
