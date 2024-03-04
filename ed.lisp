@@ -179,7 +179,7 @@ TO-EDIT might be one of:
   "Print the current line number."
   (print %ed-index))
 
-(define-command (:eval :ev) (&rest form)
+(define-command (:eval :ev) (&rest forms)
   "Evaluate the current indexed form or FORM."
   (print (eval (if forms
                    `(progn ,@forms)
