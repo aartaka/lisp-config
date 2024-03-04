@@ -27,9 +27,13 @@ TO-EDIT might be one of:
       (pathname
        (setf %ed-object head
              %ed-index 0
-             %ed-buffer (uiop:read-file-lines
-                         (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
-                         :if-does-not-exist :create)))
+             %ed-buffer (funcall (if (member (pathname-type %ed-object)
+                                             '("lisp" "lsp" "scm") ;; Scheme!?
+                                             :test #'string=)
+                                     #'uiop:read-file-forms
+                                     #'uiop:read-file-lines)
+                                 (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
+                                 :if-does-not-exist :create)))
       ((or string symbol)
        (unless (uiop:emptyp head)
          (setf %ed-index 0
