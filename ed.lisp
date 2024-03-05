@@ -155,7 +155,10 @@ ERASE: remove by or as if by rubbing or erasing."
 ENACT: represent or perform as if in a play."
   (typecase (or object %ed-object)
     (pathname
-     (with-open-file (s %ed-object :direction :output)
+     (with-open-file (s %ed-object
+                        :direction :output
+                        :if-exists :supersede
+                        :if-does-not-exist :create)
        (let ((*print-lines* nil)
              (*print-length* nil)
              (*print-level* nil)
