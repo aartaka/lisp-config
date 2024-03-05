@@ -195,11 +195,6 @@ EYE: look at."
     (print-line details))
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
 
-(define-command (:etch :et) ()
-  "Print the current line number.
-ETCH: cause to stand out or be clearly defined or visible."
-  (print %ed-index))
-
 (define-command (:eval :ev) (&rest forms)
   "Evaluate the current indexed form or FORM."
   (print (eval (if forms
