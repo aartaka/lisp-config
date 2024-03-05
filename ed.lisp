@@ -66,14 +66,16 @@ TO-EDIT might be one of:
     (print-line)))
 
 (define-command (:eject :ej) (&optional that-many-lines)
-  "Remove THAT-MANY-LINES starting from (and including) the current one."
+  "Remove THAT-MANY-LINES starting from (and including) the current one.
+EJECT: put out or expel from a place."
   (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index (or that-many-lines 1))
                                                         (length %ed-buffer)))
         %ed-buffer (append (subseq %ed-buffer 0 %ed-index)
                            (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
 
 (define-command (:egress :eg) (&optional before)
-  "Paste the last :ekill-ed text to BEFORE or after the current line."
+  "Paste the last :ekill-ed text to BEFORE or after the current line.
+EGRESS: the reappearance of a celestial body after an eclipse"
   (setf %ed-buffer
         (append (subseq %ed-buffer 0 (if before
                                          %ed-index
@@ -84,7 +86,8 @@ TO-EDIT might be one of:
                                        (1+ %ed-index))))))
 
 (define-command (:eik :ei) (&optional index)
-  "Descend into the current indexed (or form at INDEX) form to edit it."
+  "Descend into the current indexed (or form at INDEX) form to edit it.
+EIK: to get with great difficulty."
   (let ((index (or index %ed-index)))
     (when (listp (elt %ed-buffer index))
       (setf %ed-stack (append (list %ed-buffer index) %ed-stack)
@@ -102,7 +105,8 @@ TO-EDIT might be one of:
                  %ed-index index)))
 
 (define-command (:escape :es) (&optional that-many-levels)
-  "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part."
+  "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part.
+ESCAPE: cut and run."
   (buffer-up (or that-many-levels 1))
   (print-line))
 
@@ -115,7 +119,8 @@ TO-EDIT might be one of:
 
 ;; TODO: Better behavior for Lisp vs. Line forms.
 (define-command (:effuse :ef) (&rest forms)
-  "Add new form/FORMS after the current line."
+  "Add new form/FORMS after the current line.
+EFFUSE: flow or spill forth."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (when %ed-buffer
@@ -126,7 +131,8 @@ TO-EDIT might be one of:
     (incf %ed-index)))
 
 (define-command (:embed :em) (&rest forms)
-  "Add new form/FORMS before the current line."
+  "Add new form/FORMS before the current line.
+EMBED: attach to."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (subseq %ed-buffer 0 %ed-index)
@@ -134,7 +140,8 @@ TO-EDIT might be one of:
                   (subseq %ed-buffer %ed-index)))))
 
 (define-command (:erase :er) (&rest forms)
-  "Replace the part of current contents with new form/FORMS."
+  "Replace the part of current contents with new form/FORMS.
+ERASE: remove by or as if by rubbing or erasing."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (subseq %ed-buffer 0 %ed-index)
@@ -144,7 +151,8 @@ TO-EDIT might be one of:
 ;; TODO: slurp + barf
 
 (define-command (:enact :en) (&optional object)
-  "Save the contents of the editor buffer to OBJECT or current edited object."
+  "Save the contents of the editor buffer to OBJECT or current edited object.
+ENACT: represent or perform as if in a play."
   (typecase (or object %ed-object)
     (pathname
      (with-open-file (s %ed-object :direction :output)
@@ -172,11 +180,13 @@ TO-EDIT might be one of:
                   ,%ed-buffer)))))
 
 (define-command (:examine :ex) (&optional details)
-  "Print the current line."
+  "Print the current line.
+EXAMINE: observe, check out, and look over carefully or inspect."
   (print-line details))
 
 (define-command (:eye :ey) (&optional details)
-  "Scroll the editor buffer down `*print-lines*' times, printing them with DETAILs."
+  "Scroll the editor buffer down `*print-lines*' times, printing them with DETAILs.
+EYE: look at."
   (loop for i below (or *print-lines* 5)
         while (<= %ed-index (1- (length %ed-buffer)))
         do (print-line details)
@@ -186,7 +196,8 @@ TO-EDIT might be one of:
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
 
 (define-command (:etch :et) ()
-  "Print the current line number."
+  "Print the current line number.
+ETCH: cause to stand out or be clearly defined or visible."
   (print %ed-index))
 
 (define-command (:eval :ev) (&rest forms)
