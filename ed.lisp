@@ -106,7 +106,7 @@ TO-EDIT might be one of:
   (buffer-up (or that-many-levels 1))
   (print-line))
 
-;; TODO: :eavesdrop (search)
+;; TODO: :eavesdrop? (search)
 
 (defun forms-or-read (forms)
   (if (uiop:emptyp forms)
@@ -140,6 +140,8 @@ TO-EDIT might be one of:
           (append (subseq %ed-buffer 0 %ed-index)
                   lines
                   (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
+
+;; TODO: slurp + barf
 
 (define-command (:enact :en) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object."
