@@ -20,12 +20,7 @@
       (format t "~&~:[~*~a~;~d: ~s~]"
               detail %ed-index (elt %ed-buffer %ed-index)))))
 
-(define-command (:edit :ed) (&rest to-edit)
-  "Edit the TO-EDIT data.
-TO-EDIT might be one of:
-- String or pathname to edit the file it points to.
-- List of forms to evaluate and edit the `*standard-output*' of.
-- An integer to move to an indexed line in editor buffer."
+(defun edit (&rest to-edit)
   (let ((head (first to-edit)))
     (typecase head
       (pathname
@@ -64,6 +59,14 @@ TO-EDIT might be one of:
                         (- %ed-index head)
                         (min head (length %ed-buffer)))))))
     (print-line)))
+
+(define-command (:edit :ed) (&rest to-edit)
+  "Edit the TO-EDIT data.
+TO-EDIT might be one of:
+- String or pathname to edit the file it points to.
+- List of forms to evaluate and edit the `*standard-output*' of.
+- An integer to move to an indexed line in editor buffer."
+  (apply #'edit to-edit))
 
 (define-command (:eject :ej) (&optional that-many-lines)
   "Remove THAT-MANY-LINES starting from (and including) the current one.
