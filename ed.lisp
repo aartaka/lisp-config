@@ -208,11 +208,11 @@ ELUTE: wash out with a solvent, as in chromatography."
                     (list (elt %ed-buffer %ed-index)))
                 (subseq %ed-buffer (1+ %ed-index)))))
 
-;; (define-command (:exert :ex) ()
+;; (define-command (:expand :ex) ()
 ;;   "Devour the next form to be part of the current one.
-;; EXERT one's power or influence.")
+;; EXPAND: extend in one or more directions.")
 ;; (define-command (:ebb :eb) ()
-;;   "Barf the last line of the current form out after it.
+;;   "Barf the last part of the current form out of it.
 ;; EBB: fall away or decline.")
 
 (define-command (:entrust :ent) (&optional object)
