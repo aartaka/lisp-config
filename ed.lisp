@@ -13,8 +13,8 @@
 
 (defun print-line (&optional detail)
   (let ((*print-lines* 1)
-        (*print-length* 5)
-        (*print-level* 2)
+        (*print-length* 10)
+        (*print-level* 3)
         (*print-case* :downcase))
     (when %ed-buffer
       (format t "~&~:[~*~a~;~d: ~s~]"
