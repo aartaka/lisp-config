@@ -173,9 +173,9 @@ EFFUSE: flow or spill forth."
                     (subseq %ed-buffer (1+ %ed-index)))))
     (incf %ed-index)))
 
-(define-command (:embed :em) (&rest forms)
+(define-command (:enter :en) (&rest forms)
   "Add new form/FORMS before the current line.
-EMBED: attach to."
+ENTER: to come or go into."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
           (append (subseq %ed-buffer 0 %ed-index)
@@ -192,7 +192,7 @@ ERASE: remove by or as if by rubbing or erasing."
                   lines
                   (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
 
-(define-command (:embrace :emb) ()
+(define-command (:embrace :em) ()
   "Wrap the current form in a extra set of parentheses.
 EMBRACE: have as one's sphere or territory."
   (setf (elt %ed-buffer %ed-index)
@@ -215,9 +215,9 @@ ELUTE: wash out with a solvent, as in chromatography."
 ;;   "Barf the last line of the current form out after it.
 ;; EBB: fall away or decline.")
 
-(define-command (:enact :en) (&optional object)
+(define-command (:entrust :ent) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object.
-ENACT: represent or perform as if in a play."
+ENTRUST: confer a trust upon."
   (typecase (or object %ed-object)
     (pathname
      (with-open-file (s %ed-object
