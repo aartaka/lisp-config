@@ -74,3 +74,7 @@ controllable from CL (and Talkative)."
             (mapcar #'file-namestring
                     (uiop:directory-files (uiop:getcwd))))
     (values)))
+
+(define-command :loadrc ()
+  "Reload the config file."
+  (load (cl-user::config "config.lisp")))
