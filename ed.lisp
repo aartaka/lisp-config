@@ -207,7 +207,8 @@ ENACT: represent or perform as if in a play."
                ;; Lisp form, right? Right?
                (buffer-up 100)
                (loop for form in %ed-buffer
-                     do (prin1 form s)))
+                     do (let ((*print-escape* t))
+                          (format s "~&~s~%~%" form))))
              (loop for string in %ed-buffer
                    do (if (stringp string)
                           (write-sequence string s)
