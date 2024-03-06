@@ -108,13 +108,14 @@ EIK: to get with great difficulty."
       (print-line))))
 
 (defun buffer-up (that-much-levels)
-  (loop repeat that-much-levels
-        while %ed-stack
-        for buffer = (pop %ed-stack)
-        for index = (pop %ed-stack)
-        do (setf (elt buffer index) %ed-buffer
-                 %ed-buffer buffer
-                 %ed-index index)))
+  (dotimes (repeat that-much-levels)
+    (declare (ignore repeat))
+    (when %ed-stack
+      (let ((buffer (pop %ed-stack))
+            (index (pop %ed-stack)))
+        (setf (elt buffer index) %ed-buffer
+              %ed-buffer buffer
+              %ed-index index)))))
 
 (define-command (:escape :es) (&optional that-many-levels)
   "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part.
@@ -235,14 +236,14 @@ ENTRUST: confer a trust upon."
                ;; Arbitrarily big number. No one will have a 100-levels deep
                ;; Lisp form, right? Right?
                (buffer-up 100)
-               (loop for form in %ed-buffer
-                     do (let ((*print-escape* t))
-                          (format s "~&~s~%~%" form))))
-             (loop for string in %ed-buffer
-                   do (if (stringp string)
-                          (write-sequence string s)
-                          (prin1 string s))
-                   do (terpri s))))))
+               (dolist (form %ed-buffer)
+                 (let ((*print-escape* t))
+                   (format s "~&~s~%~%" form))))
+             (dolist (string %ed-buffer)
+               (if (stringp string)
+                   (write-sequence string s)
+                   (prin1 string s))
+               (terpri s))))))
     (function
      (buffer-up 100)
      (eval `(setf (fdefinition (quote ,(gimage:function-name* %ed-object)))
@@ -256,10 +257,11 @@ ECHO: call to mind."
 (define-command (:eye :ey) (&optional lines details)
   "Scroll the editor buffer down LINES (or `*print-lines*') times, printing them with DETAILs.
 EYE: look at."
-  (loop for i below (or lines *print-lines* 5)
-        while (<= %ed-index (1- (length %ed-buffer)))
-        do (print-line details)
-        do (incf %ed-index))
+  (dotimes (i (or lines *print-lines* 5))
+    (declare (ignore i))
+    (when (<= %ed-index (1- (length %ed-buffer)))
+      (print-line details)
+      (incf %ed-index)))
   (when (< %ed-index (1- (length %ed-buffer)))
     (print-line details))
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
