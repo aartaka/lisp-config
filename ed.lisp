@@ -208,3 +208,14 @@ EYE: look at."
   (print (eval (if forms
                    `(progn ,@forms)
                    (elt %ed-buffer %ed-index)))))
+
+
+(defmacro define-command/raw (&rest args)
+  `(#-clozure
+    define-command/string
+    #+clozure
+    define-command/eval
+    ,@args))
+(#-clozure define-command/string #+clozure define-command/eval (:manual :man) (args)
+ "`edit' the man-ual of ARGS to scroll and read it."
+ (edit (uiop:strcat "man --pager=cat " args)))
