@@ -182,6 +182,7 @@ EMBED: attach to."
                   lines
                   (subseq %ed-buffer %ed-index)))))
 
+;; TODO: :err?
 (define-command (:erase :er) (&rest forms)
   "Replace the part of current contents with new form/FORMS.
 ERASE: remove by or as if by rubbing or erasing."
