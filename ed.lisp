@@ -208,7 +208,12 @@ ELUTE: wash out with a solvent, as in chromatography."
                     (list (elt %ed-buffer %ed-index)))
                 (subseq %ed-buffer (1+ %ed-index)))))
 
-;; TODO: slurp + barf
+;; (define-command (:exert :ex) ()
+;;   "Devour the next form to be part of the current one.
+;; EXERT one's power or influence.")
+;; (define-command (:ebb :eb) ()
+;;   "Barf the last line of the current form out after it.
+;; EBB: fall away or decline.")
 
 (define-command (:enact :en) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object.
