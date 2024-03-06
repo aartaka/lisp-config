@@ -38,9 +38,11 @@
          (setf %ed-index 0
                %ed-buffer (split-lines
                            (uiop:run-program
-                            (mapcar (lambda (f)
-                                      (string-downcase (string f)))
-                                    to-edit)
+                            (if (rest to-edit)
+                                (mapcar (lambda (f)
+                                          (string-downcase (string f)))
+                                        to-edit)
+                                (first to-edit))
                             :output '(:string :stripped t))))))
       ((or (cons (eql function))
            function)
