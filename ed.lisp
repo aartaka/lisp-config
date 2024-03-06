@@ -192,10 +192,10 @@ ENACT: represent or perform as if in a play."
 EXAMINE: observe, check out, and look over carefully or inspect."
   (print-line details))
 
-(define-command (:eye :ey) (&optional details)
-  "Scroll the editor buffer down `*print-lines*' times, printing them with DETAILs.
+(define-command (:eye :ey) (&optional lines details)
+  "Scroll the editor buffer down LINES (or `*print-lines*') times, printing them with DETAILs.
 EYE: look at."
-  (loop for i below (or *print-lines* 5)
+  (loop for i below (or lines *print-lines* 5)
         while (<= %ed-index (1- (length %ed-buffer)))
         do (print-line details)
         do (incf %ed-index))
