@@ -24,15 +24,22 @@
   (let ((head (first to-edit)))
     (typecase head
       (pathname
-       (setf %ed-object head
-             %ed-index 0
-             %ed-buffer (funcall (if (member (pathname-type %ed-object)
-                                             '("lisp" "lsp" "scm") ;; Scheme!?
-                                             :test #'string=)
-                                     #'uiop:read-file-forms
-                                     #'uiop:read-file-lines)
-                                 (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
-                                 :if-does-not-exist :create)))
+       (let ((lisp-file-p (member (pathname-type %ed-object)
+                                  '("lisp" "lsp" "scm") ;; Scheme!?
+                                  :test #'string=)))
+         (setf %ed-object head
+               %ed-index 0
+               %ed-buffer (funcall (if lisp-file-p
+                                       #'uiop:read-file-forms
+                                       #'uiop:read-file-lines)
+                                   (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
+                                   :if-does-not-exist :create))
+         ;; So that it's saved with the right set of symbols.
+         (when lisp-file-p
+           (setf *package* (find-package
+                            (or (second (find 'in-package (remove-if #'atom %ed-buffer)
+                                              :key #'first))
+                                :cl-user))))))
       ((or string symbol)
        (unless (uiop:emptyp head)
          (setf %ed-index 0
