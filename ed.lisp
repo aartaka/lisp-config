@@ -248,10 +248,9 @@ ENACT: represent or perform as if in a play."
      (eval `(setf (fdefinition (quote ,(gimage:function-name* %ed-object)))
                   ,%ed-buffer)))))
 
-;; TODO: :echo? ECHO: call to mind.
-(define-command (:examine :ex) (&optional details)
+(define-command (:echo :ec) (&optional details)
   "Print the current line.
-EXAMINE: observe, check out, and look over carefully or inspect."
+ECHO: call to mind."
   (print-line details))
 
 (define-command (:eye :ey) (&optional lines details)
