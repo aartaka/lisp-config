@@ -192,6 +192,22 @@ ERASE: remove by or as if by rubbing or erasing."
                   lines
                   (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
 
+(define-command (:embrace :emb) ()
+  "Wrap the current form in a extra set of parentheses.
+EMBRACE: have as one's sphere or territory."
+  (setf (elt %ed-buffer %ed-index)
+        (list (elt %ed-buffer %ed-index))))
+
+(define-command (:elute :el) ()
+  "Unwrap the parens surrounding the current expression.
+ELUTE: wash out with a solvent, as in chromatography."
+  (setf %ed-buffer
+        (append (subseq %ed-buffer 0 %ed-index)
+                (if (listp (elt %ed-buffer %ed-index))
+                    (elt %ed-buffer %ed-index)
+                    (list (elt %ed-buffer %ed-index)))
+                (subseq %ed-buffer (1+ %ed-index)))))
+
 ;; TODO: slurp + barf
 
 (define-command (:enact :en) (&optional object)
