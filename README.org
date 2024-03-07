@@ -6,6 +6,17 @@ This is mainly a shared config for Lisp REPLs.
 
 Clone this repo as =~/.config/common-lisp=. This way the ASDF registry
 conf ends up in the proper place too.
+#+begin_src sh
+  git clone https://github.com/aartaka/lisp-config ~/.config/common-lisp
+#+end_src
+
+To propagate the config to all the installed implementation, use
+=install.lisp= script:
+#+begin_src sh
+  sbcl --script install.lisp
+#+end_src
+Note that this overwrites implementation-specific init files, so make
+sure you back them up!
 
 * Highlights
 ** Readline customizations
