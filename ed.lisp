@@ -3,6 +3,8 @@
 (in-package :editor)
 
 ;; TODO: Move to a separate repo.
+;; TODO: Binary mode?
+;; TODO: HTML mode?
 
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
