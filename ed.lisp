@@ -2,6 +2,8 @@
   (:use :cl :trivial-toplevel-commands))
 (in-package :editor)
 
+;; TODO: Move to a separate repo.
+
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
 
