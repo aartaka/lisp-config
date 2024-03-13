@@ -230,7 +230,7 @@ ELUTE: wash out with a solvent, as in chromatography."
 
 (define-command (:entrust :ent) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object.
-ENTRUST: confer a trust upon."
+ENTRUST: put into the care or protection of someone."
   (typecase (or object %ed-object)
     (pathname
      (with-open-file (s %ed-object
