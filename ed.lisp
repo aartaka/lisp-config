@@ -24,26 +24,32 @@
       (format t "~&~:[~*~a~;~d: ~s~]"
               detail %ed-index (elt %ed-buffer %ed-index)))))
 
+(defun lisp-file-p ()
+  (member (pathname-type %ed-object)
+          '("lisp" "lsp" "scm") ;; Scheme!?
+          :test #'string=))
+(defun lisp-editing-p ()
+  "Imperfect heuristic for whether we're editing raw lines or Lisp forms."
+  (or (lisp-file-p)
+      (not (pathnamep %ed-object))))
+
 (defun edit (&rest to-edit)
   (let ((head (first to-edit)))
     (typecase head
       (pathname
-       (let ((lisp-file-p (member (pathname-type %ed-object)
-                                  '("lisp" "lsp" "scm") ;; Scheme!?
-                                  :test #'string=)))
-         (setf %ed-object head
-               %ed-index 0
-               %ed-buffer (funcall (if lisp-file-p
-                                       #'uiop:read-file-forms
-                                       #'uiop:read-file-lines)
-                                   (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
-                                   :if-does-not-exist :create))
-         ;; So that it's saved with the right set of symbols.
-         (when lisp-file-p
-           (setf *package* (find-package
-                            (or (second (find 'in-package (remove-if #'atom %ed-buffer)
-                                              :key #'first))
-                                :cl-user))))))
+       (setf %ed-object head
+             %ed-index 0
+             %ed-buffer (funcall (if (lisp-file-p)
+                                     #'uiop:read-file-forms
+                                     #'uiop:read-file-lines)
+                                 (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
+                                 :if-does-not-exist :create))
+       ;; So that it's saved with the right set of symbols.
+       (when (lisp-file-p)
+         (setf *package* (find-package
+                          (or (second (find 'in-package (remove-if #'atom %ed-buffer)
+                                            :key #'first))
+                              :cl-user)))))
       ((or string symbol)
        (unless (uiop:emptyp head)
          (setf %ed-index 0
@@ -162,7 +168,9 @@ EAVESDROP: listen without the speaker's knowledge."
 
 (defun forms-or-read (forms)
   (if (uiop:emptyp forms)
-      (list (read *standard-input* nil nil))
+      (list (if (lisp-editing-p)
+                (read *standard-input* nil nil)
+                (read-line *standard-input* nil "")))
       (uiop:ensure-list forms)))
 
 ;; TODO: Better behavior for Lisp vs. Line forms.
