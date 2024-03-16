@@ -285,6 +285,7 @@ EYE: look at."
                    (elt %ed-buffer %ed-index)))))
 
 
+;; TODO: Implement editor-independent and scrollable version.
 (defmacro define-command/raw (&rest args)
   `(#-clozure
     define-command/string
