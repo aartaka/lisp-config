@@ -78,3 +78,5 @@ controllable from CL (and Talkative)."
 (define-command :loadrc ()
   "Reload the config file."
   (load (cl-user::config "config.lisp")))
+
+;; TODO: Git commands (check out Shinmera's legit)
