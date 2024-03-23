@@ -5,6 +5,7 @@
 ;; TODO: Move to a separate repo.
 ;; TODO: Binary mode?
 ;; TODO: HTML mode?
+;; TODO: :evade to switch between buffers (multiple buffer support)
 
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
