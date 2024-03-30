@@ -53,7 +53,8 @@
                               :cl-user)))))
       ((or string symbol)
        (unless (uiop:emptyp head)
-         (setf %ed-index 0
+         (setf %ed-object to-edit
+               %ed-index 0
                %ed-buffer (split-lines
                            (uiop:run-program
                             (if (rest to-edit)
@@ -71,7 +72,8 @@
                %ed-index 0
                %ed-buffer (gimage:function-lambda-expression* fn))))
       (cons
-       (setf %ed-index 0
+       (setf %ed-object to-edit
+             %ed-index 0
              %ed-buffer (eval `(progn ,@to-edit))))
       (integer
        (setf %ed-index
