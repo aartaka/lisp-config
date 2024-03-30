@@ -295,6 +295,6 @@ EYE: look at."
     #+clozure
     define-command/eval
     ,@args))
-(#-clozure define-command/string #+clozure define-command/eval (:manual :man) (args)
+(define-command/raw (:manual :man) (args)
  "`edit' the man-ual of ARGS to scroll and read it."
  (edit (uiop:strcat "man --pager=cat " args)))
