@@ -122,7 +122,7 @@ EIK: to get with great difficulty."
 
 (defun buffer-up (that-much-levels)
   (dotimes (repeat that-much-levels)
-    (declare (ignore repeat))
+    (declare (ignorable repeat))
     (when %ed-stack
       (let ((buffer (pop %ed-stack))
             (index (pop %ed-stack)))
@@ -273,7 +273,7 @@ ECHO: call to mind."
   "Scroll the editor buffer down LINES (or `*print-lines*') times, printing them with DETAILs.
 EYE: look at."
   (dotimes (i (or lines *print-lines* 5))
-    (declare (ignore i))
+    (declare (ignorable i))
     (when (<= %ed-index (1- (length %ed-buffer)))
       (print-line details)
       (incf %ed-index)))
