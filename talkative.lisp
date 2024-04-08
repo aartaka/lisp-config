@@ -54,3 +54,7 @@
         *trace-output* (talkative-out *trace-output*)
         *query-io* (make-two-way-stream (talkative-in *query-io*)
                                         (talkative-out *query-io*))))
+
+(tpl-cmd:define-command :talkative ()
+  "Enable talkative mode, as a toplevel command."
+  (talkative-enable))
