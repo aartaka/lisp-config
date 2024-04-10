@@ -49,7 +49,9 @@ Useful for dependency-based config files."
       *print-circle* nil
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
                                100)
-      *print-lines* 5)
+      *print-lines* 5
+      *print-length* 5
+      *print-level* 3)
 
 (load-after-system :graven-image (config "gimage.lisp"))
 (load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
