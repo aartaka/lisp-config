@@ -80,3 +80,5 @@ controllable from CL (and Talkative)."
   (load (cl-user::config "config.lisp")))
 
 ;; TODO: Git commands (check out Shinmera's legit)
+;; TODO: :page command separate from the editor (to read man pages and
+;; books)
