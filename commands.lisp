@@ -85,7 +85,9 @@ controllable from CL (and Talkative)."
   (let ((args (uiop:ensure-list args)))
     (flet ((print-n-lines (n)
              "Scroll down N lines, incrementing `%page-index' in the process."
-             (loop repeat n
+             (loop repeat (min n (- (length %page-buffer)
+                                    %page-index))
+                   when %page-index
                    do (format t "~&~d: ~a~%" %page-index (elt %page-buffer %page-index))
                    unless (= 1 n)
                      do (incf %page-index))))
@@ -110,6 +112,10 @@ controllable from CL (and Talkative)."
         ((integer * 0)
          (setf %page-index (max 0 (- %page-index (first args))))
          (print-n-lines 1))
+        (pathname
+         (setf %page-index 0
+               %page-buffer (uiop:read-file-lines (first args)))
+         (print-n-lines 1))
         (t
          (setf %page-buffer (uiop:split-string
                              (with-output-to-string (*standard-output*)
@@ -122,6 +128,7 @@ controllable from CL (and Talkative)."
 - String/symbol: run ARGS as shell commands and page the output.
 - Positive integer: scroll to Nth line of paged content.
 - Negative integer: scroll back relative to current line.
+- Pathname: scroll the file contents.
 - No arguments or NIL: scroll `*print-lines*' lines down.
 - Any other data type: `eval'-uate it and page the output."
   (%page args))
