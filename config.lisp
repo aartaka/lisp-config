@@ -66,7 +66,7 @@ Useful for dependency-based config files."
   (declare (ignorable char arg))
   (let ((val (read stream nil nil t)))
     (typecase val
-      (keyword (apropos* val nil t))
+      ((or keyword string) (apropos* val))
       (symbol (format t "~&~a" (lambda-list* val)))
       (list (format t "~&~a" (documentation* (first val) (second val)))))
     (terpri)
