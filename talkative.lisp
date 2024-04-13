@@ -1,4 +1,6 @@
-(in-package :cl-user)
+(uiop:define-package :talkative
+  (:use :cl))
+(in-package :talkative)
 
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
 
@@ -9,11 +11,13 @@
 (defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
   0)
 
+(defvar *talkative-speed* 200)
+
 (defun speak-string (string &key panicky-p)
   (ignore-errors
    (uiop:run-program
     `("espeak-ng" "--punct"
-                  "-s" "200"
+                  "-s" ,(princ-to-string *talkative-speed*)
                   "-v" "en-us"
                   ,@(when panicky-p
                       (list "-p" "70"))
@@ -45,8 +49,11 @@
 (defun talkative-error (stream)
   (make-broadcast-stream stream (make-instance 'talkative-stream :panicky-p t)))
 
+(defvar *talkative-enabled* nil)
+
 (defun talkative-enable ()
-  (setf *standard-output* (talkative-out *standard-output*)
+  (setf *talkative-enabled* t
+        *standard-output* (talkative-out *standard-output*)
         *error-output* (talkative-error *error-output*)
         *debug-io* (make-two-way-stream (talkative-in *debug-io*)
                                         (talkative-error *debug-io*))
@@ -55,6 +62,10 @@
         *query-io* (make-two-way-stream (talkative-in *query-io*)
                                         (talkative-out *query-io*))))
 
-(tpl-cmd:define-command :talkative ()
-  "Enable talkative mode, as a toplevel command."
-  (talkative-enable))
+(tpl-cmd:define-command/eval :talkative (&optional speed)
+  "Enable talkative mode, as a toplevel command.
+When SPEED is provided, set the speech speed to it."
+  (if speed
+      (setf *talkative-speed* speed)
+      (unless *talkative-enabled*
+        (talkative-enable))))
