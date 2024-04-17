@@ -6,6 +6,7 @@
 ;; TODO: Binary mode?
 ;; TODO: HTML mode?
 ;; TODO: :evade to switch between buffers (multiple buffer support)
+;; TODO: :elude?
 
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
