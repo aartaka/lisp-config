@@ -1,5 +1,6 @@
 (uiop:define-package :talkative
-  (:use :cl))
+  (:use :cl)
+  (:export #:speak-string #:talkative-enable))
 (in-package :talkative)
 
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
@@ -62,11 +63,3 @@
         *query-io* (make-two-way-stream (talkative-in *query-io*)
                                         (talkative-out *query-io*)))
   nil)
-
-(tpl-cmd:define-command/eval :talkative (&optional speed)
-  "Enable talkative mode, as a toplevel command.
-When SPEED is provided, set the speech speed to it."
-  (if speed
-      (setf *talkative-speed* speed)
-      (unless *talkative-enabled*
-        (talkative-enable))))
