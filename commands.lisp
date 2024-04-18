@@ -54,9 +54,11 @@ controllable from CL (and Talkative)."
                     system
                     (intern (package-name (find-package system)) :keyword))))
     (when asd-file
-      (asdf:load-asd (etypecase asd-file
-                       (string (uiop:parse-native-namestring asd-file))
-                       (pathname asd-file))))
+      (asdf:load-asd (uiop:merge-pathnames*
+                      (etypecase asd-file
+                        (string (uiop:parse-native-namestring asd-file))
+                        (pathname asd-file))
+                      (uiop:getcwd))))
     (cl-user::load-source system)))
 
 (define-command/eval (:quill :ql) (&rest systems)
