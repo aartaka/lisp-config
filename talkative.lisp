@@ -1,6 +1,6 @@
 (uiop:define-package :talkative
   (:use :cl)
-  (:export #:speak-string #:talkative-enable #:*talkative-speed*))
+  (:export #:speak-string #:enable #:*speed*))
 (in-package :talkative)
 
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
@@ -12,13 +12,13 @@
 (defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
   0)
 
-(defvar *talkative-speed* 200)
+(defvar *speed* 200)
 
 (defun speak-string (string &key panicky-p)
   (ignore-errors
    (uiop:run-program
     `("espeak-ng" "--punct"
-                  "-s" ,(princ-to-string *talkative-speed*)
+                  "-s" ,(princ-to-string *speed*)
                   "-v" "en-us"
                   ,@(when panicky-p
                       (list "-p" "70"))
@@ -52,7 +52,7 @@
 
 (defvar *talkative-enabled* nil)
 
-(defun talkative-enable ()
+(defun enable ()
   (setf *talkative-enabled* t
         *standard-output* (talkative-out *standard-output*)
         *error-output* (talkative-error *error-output*)
