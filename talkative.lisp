@@ -1,6 +1,6 @@
 (uiop:define-package :talkative
   (:use :cl)
-  (:export #:speak-string #:talkative-enable))
+  (:export #:speak-string #:talkative-enable #:*talkative-speed*))
 (in-package :talkative)
 
 ;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
