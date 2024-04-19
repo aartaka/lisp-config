@@ -151,4 +151,25 @@ This command merely invokes the pager, so use :page for all the
 subsequent actions on the manual."
   (%page (uiop:strcat "man --pager=cat " (format nil "~{~(~a~)~^ ~}" args))))
 
+(defvar *inspected-thing* nil)
+
+(defun %inspect (thing)
+  (typecase thing
+    ((or symbol integer)
+     (if *inspected-thing*
+         (let ((val (second (assoc thing (fields* *inspected-thing*)))))
+           (when val
+             (%inspect val)))
+         (setf *inspected-thing* thing)))
+    (t (setf *inspected-thing* thing)))
+  (let ((*print-case* :downcase))
+    (loop with fields = (fields* thing)
+          for index in (gimage::field-indices fields)
+          for (key value) in fields
+          do (format t "~&~d ~s = ~s" index key value))))
+
+(define-command/eval (:inspect :in) (thing)
+  "Inspect the THING or the THING-indexed field in the current thing."
+  (%inspect thing))
+
 ;; TODO: Git commands (check out Shinmera's legit)
