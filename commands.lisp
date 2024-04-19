@@ -153,20 +153,23 @@ subsequent actions on the manual."
 
 (defvar *inspected-thing* nil)
 
+(defun fields+indices (thing)
+  (let ((fields (fields* thing)))
+    (mapcar #'cons (gimage::field-indices fields) fields)))
+
 (defun %inspect (thing)
-  (typecase thing
-    ((or symbol integer)
-     (if *inspected-thing*
-         (let ((val (second (assoc thing (fields* *inspected-thing*)))))
-           (when val
-             (%inspect val)))
-         (setf *inspected-thing* thing)))
-    (t (setf *inspected-thing* thing)))
-  (let ((*print-case* :downcase))
-    (loop with fields = (fields* thing)
-          for index in (gimage::field-indices fields)
-          for (key value) in fields
-          do (format t "~&~d ~s~20t = ~s" index key value))))
+  (unless (null thing)
+    (let ((val (loop for (index field value) in (fields+indices *inspected-thing*)
+                     when (or (equal thing index)
+                              (equal thing field))
+                       do (return value))))
+      (setf *inspected-thing* (if val
+                                  (setf *inspected-thing* val)
+                                  thing))))
+  (unless (null *inspected-thing*)
+    (let ((*print-case* :downcase))
+      (loop for (index key value) in (fields+indices *inspected-thing*)
+            do (format t "~&~d ~s~20t = ~s" index key value)))))
 
 (define-command/eval (:inspect :in) (thing)
   "Inspect the THING or the THING-indexed field in the current thing."
