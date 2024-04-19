@@ -12,7 +12,7 @@
 (defmethod trivial-gray-streams:stream-line-column ((stream talkative-stream))
   0)
 
-(defvar *speed* 200)
+(defvar *speed* 240)
 
 (defun speak-string (string &key panicky-p)
   (ignore-errors
