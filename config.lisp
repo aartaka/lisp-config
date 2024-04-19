@@ -40,7 +40,7 @@ Useful for dependency-based config files."
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.
-  (when (ignore-errors (asdf:oos 'asdf:load-source-op system))
+  (when (ignore-errors (asdf:oos 'asdf:load-source-op system :verbose t))
     (when file
       (load file))))
 
