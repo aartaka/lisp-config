@@ -166,7 +166,7 @@ subsequent actions on the manual."
     (loop with fields = (fields* thing)
           for index in (gimage::field-indices fields)
           for (key value) in fields
-          do (format t "~&~d ~s = ~s" index key value))))
+          do (format t "~&~d ~s~20t = ~s" index key value))))
 
 (define-command/eval (:inspect :in) (thing)
   "Inspect the THING or the THING-indexed field in the current thing."
