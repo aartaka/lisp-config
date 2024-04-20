@@ -164,10 +164,9 @@ subsequent actions on the manual."
       (setf *inspected-thing* (if val
                                   (setf *inspected-thing* val)
                                   thing))))
-  (unless (null *inspected-thing*)
-    (let ((*print-case* :downcase))
-      (loop for (index key value) in (fields+indices *inspected-thing*)
-            do (format t "~&~d ~s~20t = ~s" index key value)))))
+  (let ((*print-case* :downcase))
+    (loop for (index key value) in (fields+indices *inspected-thing*)
+          do (format t "~&~d ~s~20t = ~s" index key value))))
 
 (define-command/eval (:inspect :in) (thing)
   "Inspect the THING or the THING-indexed field in the current thing."
