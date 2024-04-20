@@ -36,7 +36,7 @@ Useful for dependency-based config files."
 (declaim (optimize (safety 3) (debug 3)))
 
 (defun load-after-system (system &optional file)
-  "A simplistic copy of Nyxt's macro of the same name."
+  "A simplistic copy of Nyxt's macro of the same name"
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.

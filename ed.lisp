@@ -32,7 +32,7 @@
           '("lisp" "lsp" "scm") ;; Scheme!?
           :test #'string=))
 (defun lisp-editing-p ()
-  "Imperfect heuristic for whether we're editing raw lines or Lisp forms."
+  "Imperfect heuristic for whether we're editing raw lines or Lisp forms"
   (or (lisp-file-p)
       (not (pathnamep %ed-object))))
 
@@ -85,7 +85,7 @@
     (print-line)))
 
 (define-command (:edit :ed) (&rest to-edit)
-  "Edit the TO-EDIT data.
+  "Edit the TO-EDIT data
 TO-EDIT might be one of:
 - String or pathname to edit the file it points to.
 - List of forms to evaluate and edit the `*standard-output*' of.
@@ -93,7 +93,7 @@ TO-EDIT might be one of:
   (apply #'edit to-edit))
 
 (define-command (:eject :ej) (&optional that-many-lines)
-  "Remove THAT-MANY-LINES starting from (and including) the current one.
+  "Remove THAT-MANY-LINES starting from (and including) the current one
 EJECT: put out or expel from a place."
   (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index (or that-many-lines 1))
                                                         (length %ed-buffer)))
@@ -101,7 +101,7 @@ EJECT: put out or expel from a place."
                            (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
 
 (define-command (:egress :eg) (&optional before)
-  "Paste the last :ekill-ed text to BEFORE or after the current line.
+  "Paste the last :ekill-ed text to BEFORE or after the current line
 EGRESS: the reappearance of a celestial body after an eclipse"
   (setf %ed-buffer
         (append (subseq %ed-buffer 0 (if before
@@ -113,7 +113,7 @@ EGRESS: the reappearance of a celestial body after an eclipse"
                                        (1+ %ed-index))))))
 
 (define-command (:eik :ei) (&optional index)
-  "Descend into the current indexed (or form at INDEX) form to edit it.
+  "Descend into the current indexed (or form at INDEX) form to edit it
 EIK: to get with great difficulty."
   (let ((index (or index %ed-index)))
     (when (listp (elt %ed-buffer index))
@@ -155,7 +155,7 @@ ESCAPE: cut and run."
                              %ed-index (pop %ed-stack))))))
 
 (define-command (:eavesdrop :ea) (to-search)
-  "Find the TO-SEARCH in the editor buffer.
+  "Find the TO-SEARCH in the editor buffer
 If in line mode, search the text across lines.
 If in s-expressions mode, recursively search for TO-SEARCH in forms.
 EAVESDROP: listen without the speaker's knowledge."
@@ -180,7 +180,7 @@ EAVESDROP: listen without the speaker's knowledge."
 
 ;; TODO: Better behavior for Lisp vs. Line forms.
 (define-command (:effuse :ef) (&rest forms)
-  "Add new form/FORMS after the current line.
+  "Add new form/FORMS after the current line
 EFFUSE: flow or spill forth."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
@@ -192,7 +192,7 @@ EFFUSE: flow or spill forth."
     (incf %ed-index)))
 
 (define-command (:enter :en) (&rest forms)
-  "Add new form/FORMS before the current line.
+  "Add new form/FORMS before the current line
 ENTER: to come or go into."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
@@ -202,7 +202,7 @@ ENTER: to come or go into."
 
 ;; TODO: :err?
 (define-command (:erase :er) (&rest forms)
-  "Replace the part of current contents with new form/FORMS.
+  "Replace the part of current contents with new form/FORMS
 ERASE: remove by or as if by rubbing or erasing."
   (let ((lines (forms-or-read forms)))
     (setf %ed-buffer
@@ -211,7 +211,7 @@ ERASE: remove by or as if by rubbing or erasing."
                   (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
 
 (define-command (:embrace :em) ()
-  "Wrap the current form in a extra set of parentheses.
+  "Wrap the current form in a extra set of parentheses
 EMBRACE: have as one's sphere or territory."
   (setf (elt %ed-buffer %ed-index)
         (list (elt %ed-buffer %ed-index))))
@@ -267,12 +267,12 @@ ENTRUST: put into the care or protection of someone."
                   ,%ed-buffer)))))
 
 (define-command (:echo :ec) (&optional details)
-  "Print the current line.
+  "Print the current line
 ECHO: call to mind."
   (print-line details))
 
 (define-command (:eye :ey) (&optional lines details)
-  "Scroll the editor buffer down LINES (or `*print-lines*') times, printing them with DETAILs.
+  "Scroll the editor buffer down LINES (or `*print-lines*') times, printing them with DETAILs
 EYE: look at."
   (dotimes (i (or lines *print-lines* 5))
     (declare (ignorable i))
@@ -284,7 +284,7 @@ EYE: look at."
   (setf %ed-index (min (1- (length %ed-buffer)) %ed-index)))
 
 (define-command (:eval :ev) (&rest forms)
-  "Evaluate the current indexed form or FORM."
+  "Evaluate the current indexed form or FORM"
   (print (eval (if forms
                    `(progn ,@forms)
                    (elt %ed-buffer %ed-index)))))

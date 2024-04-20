@@ -5,7 +5,7 @@
 (use-package :trivial-toplevel-commands)
 
 (define-command/eval :qq (&optional code)
-  "Quit properly."
+  "Quit properly"
   (uiop:quit (or code 0)))
 
 (defmacro define-command/raw (&rest args)
@@ -16,12 +16,12 @@
     ,@args))
 
 (define-command/raw (:sh :!) (command)
- "Run shell command synchronously."
+ "Run shell command synchronously"
  (ignore-errors
   (uiop:run-program command :output t :error-output t)))
 
 (define-command/raw (:shi :?) (command)
-  "Run shell command synchronously and interactively.
+  "Run shell command synchronously and interactively
 Beware that it uses OS shell input/output and thus is not really
 controllable from CL (and Talkative)."
   (uiop:run-program command
@@ -31,12 +31,12 @@ controllable from CL (and Talkative)."
 
 
 (define-command/raw (:sha :&) (command)
-  "Run shell command asynchronously."
+  "Run shell command asynchronously"
   (ignore-errors
    (uiop:launch-program command :output t :error-output t)))
 
 (define-command/raw (:sudo :su) (command)
-  "Run the command as sudo, passing the password in."
+  "Run the command as sudo, passing the password in"
   (let ((password (progn
                     (princ "Input the sudo password: ")
                     (finish-output)
@@ -47,7 +47,7 @@ controllable from CL (and Talkative)."
                          :output t :error-output t :input p)))))
 
 (define-command/eval (:loadsys :lsd) (system &optional asd-file)
-  "Load an ASDF SYSTEM."
+  "Load an ASDF SYSTEM"
   (let ((system (if (asdf:find-system system nil)
                     system
                     (intern (package-name (find-package system)) :keyword))))
@@ -60,12 +60,12 @@ controllable from CL (and Talkative)."
     (cl-user::load-source system)))
 
 (define-command/eval (:quill :ql) (&rest systems)
-  "Load a SYSTEM via Quicklisp."
+  "Load a SYSTEM via Quicklisp"
   (ql:quickload systems :verbose t))
 
 (define-command/raw (:directory :dir) (#+clozure &optional
                                        dir)
-  "(Switch to DIR, if provided) and list all the files in the current directory."
+  "(Switch to DIR, if provided) and list all the files in the current directory"
   (block dir
     (let ((resolved-dir (merge-pathnames
                          (uiop:parse-native-namestring dir)
@@ -87,7 +87,7 @@ controllable from CL (and Talkative)."
     (values)))
 
 (define-command :loadrc ()
-  "Reload the config file."
+  "Reload the config file"
   (load (cl-user::config "config.lisp")))
 
 (defvar %page-buffer nil)
@@ -95,7 +95,7 @@ controllable from CL (and Talkative)."
 (defun %page (args)
   (let ((args (uiop:ensure-list args)))
     (flet ((print-n-lines (n)
-             "Scroll down N lines, incrementing `%page-index' in the process."
+             "Scroll down N lines, incrementing `%page-index' in the process"
              (loop repeat (min n (- (length %page-buffer)
                                     %page-index))
                    when %page-index
@@ -135,7 +135,7 @@ controllable from CL (and Talkative)."
          (print-n-lines 1))))))
 
 (define-command (:page :pg) (&rest args)
-  "Page the provided arguments' output.
+  "Page the provided arguments' output
 - String/symbol: run ARGS as shell commands and page the output.
 - Positive integer: scroll to Nth line of paged content.
 - Negative integer: scroll back relative to current line.
@@ -144,7 +144,7 @@ controllable from CL (and Talkative)."
 - Any other data type: `eval'-uate it and page the output."
   (%page args))
 (define-command (:manual :man) (&rest args)
-  "View the UNIX/GNU/Linux manuals.
+  "View the UNIX/GNU/Linux manuals
 This command merely invokes the pager, so use :page for all the
 subsequent actions on the manual."
   (%page (uiop:strcat "man --pager=cat " (format nil "~{~(~a~)~^ ~}" args))))
@@ -169,7 +169,7 @@ subsequent actions on the manual."
           do (format t "~&~d ~s~20t = ~s" index key value))))
 
 (define-command/eval (:inspect :in) (thing)
-  "Inspect the THING or the THING-indexed field in the current thing."
+  "Inspect the THING or the THING-indexed field in the current thing"
   (%inspect thing))
 
 ;; TODO: Git commands (check out Shinmera's legit)
