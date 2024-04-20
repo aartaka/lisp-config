@@ -33,9 +33,7 @@ controllable from CL (and Talkative)."
 (define-command/raw (:sha :&) (command)
   "Run shell command asynchronously."
   (ignore-errors
-   (uiop:launch-program command
-                        :output :interactive
-                        :error-output :interactive)))
+   (uiop:launch-program command :output t :error-output t)))
 
 (define-command/raw (:sudo :su) (command)
   "Run the command as sudo, passing the password in."
