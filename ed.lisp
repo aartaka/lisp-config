@@ -7,7 +7,6 @@
 ;; TODO: HTML mode?
 ;; TODO: :evade to switch between buffers (multiple buffer support)
 ;; TODO: :elude?
-;; TODO: :entrail?
 
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
@@ -216,9 +215,9 @@ EMBRACE: have as one's sphere or territory."
   (setf (elt %ed-buffer %ed-index)
         (list (elt %ed-buffer %ed-index))))
 
-(define-command (:elute :el) ()
-  "Unwrap the parens surrounding the current expression.
-ELUTE: wash out with a solvent, as in chromatography."
+(define-command (:entral :ent) ()
+  "Unwrap the parens surrounding the current expression
+ENTRAILs: internal organs collectively."
   (setf %ed-buffer
         (append (subseq %ed-buffer 0 %ed-index)
                 (if (listp (elt %ed-buffer %ed-index))
@@ -233,8 +232,8 @@ ELUTE: wash out with a solvent, as in chromatography."
 ;;   "Barf the last part of the current form out of it.
 ;; EBB: fall away or decline.")
 
-(define-command (:entrust :ent) (&optional object)
-  "Save the contents of the editor buffer to OBJECT or current edited object.
+(define-command (:entrust :entr) (&optional object)
+  "Save the contents of the editor buffer to OBJECT or current edited object
 ENTRUST: put into the care or protection of someone."
   (typecase (or object %ed-object)
     (pathname
