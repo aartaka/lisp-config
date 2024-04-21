@@ -20,6 +20,7 @@
     `("espeak-ng" "--punct"
                   "-s" ,(princ-to-string *speed*)
                   "-v" "en-us"
+                  "-k" "1"
                   ,@(when panicky-p
                       (list "-p" "70"))
                   ,string))))
