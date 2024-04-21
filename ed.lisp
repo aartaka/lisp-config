@@ -158,7 +158,6 @@ ESCAPE: cut and run."
 If in line mode, search the text across lines.
 If in s-expressions mode, recursively search for TO-SEARCH in forms.
 EAVESDROP: listen without the speaker's knowledge."
-  (print to-search)
   (if (every #'stringp %ed-buffer)
       (setf %ed-index
             (or (position-if (lambda (line)
