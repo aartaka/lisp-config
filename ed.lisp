@@ -106,7 +106,7 @@ EGRESS: the reappearance of a celestial body after an eclipse"
         (append (subseq %ed-buffer 0 (if before
                                          %ed-index
                                          (1+ %ed-index)))
-                %ed-clipboard
+                (copy-tree %ed-clipboard)
                 (subseq %ed-buffer (if before
                                        %ed-index
                                        (1+ %ed-index))))))
