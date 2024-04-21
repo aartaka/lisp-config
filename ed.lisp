@@ -216,7 +216,7 @@ EMBRACE: have as one's sphere or territory."
   (setf (elt %ed-buffer %ed-index)
         (list (elt %ed-buffer %ed-index))))
 
-(define-command (:entral :ent) ()
+(define-command (:entrail :ent) ()
   "Unwrap the parens surrounding the current expression
 ENTRAILs: internal organs collectively."
   (setf %ed-buffer
@@ -233,9 +233,9 @@ ENTRAILs: internal organs collectively."
 ;;   "Barf the last part of the current form out of it.
 ;; EBB: fall away or decline.")
 
-(define-command (:entrust :entr) (&optional object)
+(define-command (:etch :et) (&optional object)
   "Save the contents of the editor buffer to OBJECT or current edited object
-ENTRUST: put into the care or protection of someone."
+ETCH: cause to stand out or be clearly defined or visible."
   (typecase (or object %ed-object)
     (pathname
      (with-open-file (s %ed-object
