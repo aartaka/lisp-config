@@ -161,7 +161,9 @@ EAVESDROP: listen without the speaker's knowledge."
   (if (every #'stringp %ed-buffer)
       (setf %ed-index
             (or (position-if (lambda (line)
-                               (search (princ-to-string to-search) line :test #'equalp))
+                               (search (let ((*print-case* :downcase))
+                                         (princ-to-string to-search))
+                                       line :test #'equalp))
                              %ed-buffer
                              :start (1+ %ed-index))
                 %ed-index))
