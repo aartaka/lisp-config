@@ -39,13 +39,15 @@
   (let ((head (first to-edit)))
     (typecase head
       (pathname
-       (setf %ed-object head
-             %ed-index 0
-             %ed-buffer (funcall (if (lisp-file-p)
-                                     #'uiop:read-file-forms
-                                     #'uiop:read-file-lines)
-                                 (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
-                                 :if-does-not-exist :create))
+       (when (or (uiop:file-exists-p to-edit)
+                 (gimage:yes-or-no-p* "Create a ~a file?" head))
+         (setf %ed-object head
+               %ed-index 0
+               %ed-buffer (funcall (if (lisp-file-p)
+                                       #'uiop:read-file-forms
+                                       #'uiop:read-file-lines)
+                                   (uiop:merge-pathnames* (first to-edit) (uiop:getcwd))
+                                   :if-does-not-exist :create)))
        ;; So that it's saved with the right set of symbols.
        (when (lisp-file-p)
          (setf *package* (find-package
