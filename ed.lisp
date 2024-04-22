@@ -1,5 +1,6 @@
 (uiop:define-package :editor
-  (:use :cl :trivial-toplevel-commands))
+  (:use :cl :trivial-toplevel-commands)
+  (:nicknames :ed))
 (in-package :editor)
 
 ;; TODO: Move to a separate repo.
