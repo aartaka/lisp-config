@@ -91,7 +91,7 @@ controllable from CL (and Talkative)."
   (load (cl-user::config "config.lisp")))
 
 (defvar %page-buffer nil)
-(defvar %page-index)
+(defvar %page-index nil)
 (defun %page (args)
   (let ((args (uiop:ensure-list args)))
     (flet ((print-n-lines (n)
