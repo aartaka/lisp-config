@@ -8,6 +8,7 @@
 ;; TODO: HTML mode?
 ;; TODO: :evade to switch between buffers (multiple buffer support)
 ;; TODO: :elude?
+;; TODO: :eavesdrop with proper wrapping DFS search.
 
 (defun split-lines (string)
   (uiop:split-string string :separator '(#\Newline)))
@@ -138,40 +139,6 @@ EIK: to get with great difficulty."
   "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part.
 ESCAPE: cut and run."
   (buffer-up (or that-many-levels 1))
-  (print-line))
-
-(defun rec-search (thing)
-  (let ((found-position (position-if (lambda (form)
-                                       (equal form thing))
-                                     %ed-buffer)))
-    (if found-position
-        (throw 'found (setf %ed-index found-position))
-        (loop for form in %ed-buffer
-              for index from 0
-              when (listp form)
-                do (setf %ed-stack (append (list %ed-buffer index) %ed-stack)
-                         %ed-buffer (elt %ed-buffer index)
-                         %ed-index 0)
-                and do (rec-search thing)
-                and do (setf %ed-buffer (pop %ed-stack)
-                             %ed-index (pop %ed-stack))))))
-
-(define-command (:eavesdrop :ea) (to-search)
-  "Find the TO-SEARCH in the editor buffer
-If in line mode, search the text across lines.
-If in s-expressions mode, recursively search for TO-SEARCH in forms.
-EAVESDROP: listen without the speaker's knowledge."
-  (if (every #'stringp %ed-buffer)
-      (setf %ed-index
-            (or (position-if (lambda (line)
-                               (search (let ((*print-case* :downcase))
-                                         (princ-to-string to-search))
-                                       line :test #'equalp))
-                             %ed-buffer
-                             :start (1+ %ed-index))
-                %ed-index))
-      (catch 'found
-        (rec-search to-search)))
   (print-line))
 
 (defun forms-or-read (forms)
