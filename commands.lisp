@@ -131,7 +131,8 @@ controllable from CL (and Talkative)."
          (setf %page-buffer (uiop:split-string
                              (with-output-to-string (*standard-output*)
                                (eval `(progn ,@args)))
-                             :separator '(#\Newline)))
+                             :separator '(#\Newline))
+               %page-index 0)
          (print-n-lines 1))))))
 
 (define-command (:page :pg) (&rest args)
