@@ -170,7 +170,6 @@ ENTER: to come or go into."
                   lines
                   (subseq %ed-buffer %ed-index)))))
 
-;; TODO: :err?
 (define-command (:erase :er) (&rest forms)
   "Replace the part of current contents with new form/FORMS
 ERASE: remove by or as if by rubbing or erasing."
@@ -179,6 +178,18 @@ ERASE: remove by or as if by rubbing or erasing."
           (append (subseq %ed-buffer 0 %ed-index)
                   lines
                   (nthcdr (+ %ed-index (length lines)) %ed-buffer)))))
+
+(define-command :err (action)
+  "Replace the current element of the buffer with ACTION
+ACTION can be either of:
+- A function to call on the current value to get a new one.
+- Anything else to replace the current value with.
+ERR: to make a mistake or be incorrect."
+  (typecase action
+    (function
+     (setf (elt %ed-buffer %ed-index)
+           (funcall action (elt %ed-buffer %ed-index))))
+    (t (setf (elt %ed-buffer %ed-index) action))))
 
 (define-command (:embrace :em) ()
   "Wrap the current form in a extra set of parentheses
