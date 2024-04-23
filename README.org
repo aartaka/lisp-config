@@ -35,7 +35,7 @@ Also has lots of =:around= methods for my [[https://github.com/aartaka/graven-im
 standard-enhancing library. Mainly making printouts less overwhelming.
 
 ** Commands
-Convenience commands to:
+Convenience commands ([[./commands.lisp]]) to:
 - :qq :: Quickly quit from the REPL in a portable fashion.
 - :sh/:! :: Run shell command synchronously and print results.
 - :shi/:? :: Run shell command interactively.
@@ -45,15 +45,14 @@ Convenience commands to:
 - :dir :: Change the directory and print its contents.
 
 ** Experimental editor
-Command-based editor with
-- :ed[it] :: as the entry point to edit file or shell command output.
-- :ep[rint] :: to print the current line.
-- :ez[oom] :: to scroll through the buffer.
-- :ea[ppend] and :ei[nsert] :: to add new text.
-- :ef[ind] :: for text search.
-- :ek[ill] and :ey[ank] :: for clipboard management and text deletion.
-- :es[ave] :: to save to file.
+Command-based editor with mnemonic commands. See [[./ed.lisp]].
 
 ** Experimental "Talkative Lisp" Code
 This feeds REPL output and input to EspeakNG to speak the text. The
-plan is to turn it into a proper screenreader-ish setup.
+plan is to turn it into a proper screenreader-ish setup. See [[./talkative.lisp]].
+
+** Useful yet highly opinionated reader macros
+See [[./reader.lisp]]:
+- ~#?~ to print meta information about the symbol after it:
+  documentation, apropos, arglist. Requires Graven Image.
+- ~#^~ as a shortcut for throwaway lambdas.
