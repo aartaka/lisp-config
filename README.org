@@ -72,4 +72,8 @@ plan is to turn it into a proper screenreader-ish setup. See [[./talkative.lisp]
 See [[./reader.lisp]]:
 - ~#?~ to print meta information about the symbol after it:
   documentation, apropos, arglist. Requires Graven Image.
-- ~#^~ as a shortcut for throwaway lambdas.
+- ~#^~ as a shortcut for throwaway lambdas:
+#+begin_src lisp
+'#^__ ;; => (lambda (&optional _ __ ___) __)
+#+end_src
+
