@@ -68,6 +68,10 @@ Command-based editor with mnemonic commands. See [[./ed.lisp]].
 This feeds REPL output and input to EspeakNG to speak the text. The
 plan is to turn it into a proper screenreader-ish setup. See [[./talkative.lisp]].
 
+*** Nicer prompt (~CL-USER/D1?~)
+This one is made for Talkative mode convenience, because the format is
+most discernible when read with eSpeak.
+
 ** Useful yet highly opinionated reader macros
 See [[./reader.lisp]]:
 - ~#?~ to print meta information about the symbol after it:
