@@ -20,7 +20,7 @@
  (ignore-errors
   (uiop:run-program command :output t :error-output t)))
 
-(define-command/raw (:shi :?) (command)
+(define-command/raw :shi (command)
   "Run shell command synchronously and interactively
 Beware that it uses OS shell input/output and thus is not really
 controllable from CL (and Talkative)."
