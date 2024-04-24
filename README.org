@@ -38,11 +38,15 @@ standard-enhancing library. Mainly making printouts less overwhelming.
 Convenience commands ([[./commands.lisp]]) to:
 - :qq :: Quickly quit from the REPL in a portable fashion.
 - :sh/:! :: Run shell command synchronously and print results.
-- :shi/:? :: Run shell command interactively.
+- :shi :: Run shell command interactively.
 - :sha/:& :: Run shell command asynchronously.
+- :sudo :: to eval command as sudo.
 - :loadsys/:lsd :: Load ASDF system.
 - :quill/:ql :: Load system via Quicklisp.
-- :dir :: Change the directory and print its contents.
+- :directory/:dir :: Change the directory and print its contents.
+- :page/:pg :: to scroll the shell command or Lisp form output.
+  - :manual/:man :: to ~:page~ the man page.
+- :inspect :: interactive command-based inspection.
 
 ** Experimental editor
 Command-based editor with mnemonic commands. See [[./ed.lisp]].
