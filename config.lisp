@@ -69,7 +69,7 @@ Useful for dependency-based config files."
 (load (config "ed.lisp"))
 
 (defmacro with ((&rest vars+bindings) &body body)
-  `(let* (,@(loop for (var binding . rest)
+  `(let* (,@(loop for (var binding)
                   on vars+bindings
                   by #'cddr
                   while var
