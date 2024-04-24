@@ -46,6 +46,19 @@ Convenience commands ([[./commands.lisp]]) to:
 
 ** Experimental editor
 Command-based editor with mnemonic commands. See [[./ed.lisp]].
+- :edit :: to move to the edited line (integer) start editing
+  - Form evaluation result,
+  - Function source,
+  - File contents,
+  - Or shell command output.
+- :etch :: save the changes.
+- :eject and :egress :: to cut and paste respectively. Clipboard is single element for now.
+- :eik and :escape :: to edit subform or get back to superform.
+- :effuse, :enter, and :erase :: to add new content after, before, or instead the current ones.
+- :err :: modify the current form with a function of new content.
+- :embrace and :entral :: wrap the current form into parens, or unsplice it into the surrounding content.
+- :echo and :eye :: print one line/form or scroll down N lines respectively.
+- :eval :: eval the current form of provided argument.
 
 ** Experimental "Talkative Lisp" Code
 This feeds REPL output and input to EspeakNG to speak the text. The
