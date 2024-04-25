@@ -37,14 +37,9 @@ controllable from CL (and Talkative)."
 
 (define-command/raw (:sudo :su) (command)
   "Run the command as sudo, passing the password in"
-  (let ((password (progn
-                    (princ "Input the sudo password: ")
-                    (finish-output)
-                    (read-line))))
-    (with-input-from-string (p (uiop:strcat #\Newline password #\Newline))
-      (ignore-errors
-       (uiop:run-program (uiop:strcat "sudo " command)
-                         :output t :error-output t :input p)))))
+  (ignore-errors
+   (uiop:run-program (uiop:strcat "sudo " command)
+                     :output t :error-output t :input :interactive)))
 
 (define-command/eval (:loadsys :lsd) (system &optional asd-file)
   "Load an ASDF SYSTEM"
