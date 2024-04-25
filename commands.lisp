@@ -41,7 +41,7 @@ controllable from CL (and Talkative)."
                     (princ "Input the sudo password: ")
                     (finish-output)
                     (read-line))))
-    (with-input-from-string (p password)
+    (with-input-from-string (p (uiop:strcat #\Newline password #\Newline))
       (ignore-errors
        (uiop:run-program (uiop:strcat "sudo " command)
                          :output t :error-output t :input p)))))
