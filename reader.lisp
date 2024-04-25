@@ -4,7 +4,8 @@
 
 (defun question-reader (stream char arg)
   (declare (ignorable char arg))
-  (let ((val (read stream nil nil t)))
+  (let ((val (read stream nil nil t))
+        (*print-case* :downcase))
     (typecase val
       ((or keyword string
            (cons (or keyword string)))
