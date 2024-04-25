@@ -76,7 +76,7 @@ most discernible when read with eSpeak.
 See [[./reader.lisp]]:
 - ~#?~ to print meta information about the symbol after it:
   documentation, apropos, arglist. Requires Graven Image.
-- ~#^~ as a shortcut for throwaway lambdas inspired by typical Lambda
+- ~#^~ as a shortcut for throwaway lambdas. Inspired by typical Lambda
   Calculus notation:
 #+begin_src lisp
 '#^kv.v ;; => (lambda (&optional k v) v)
