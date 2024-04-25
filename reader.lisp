@@ -22,14 +22,18 @@
   (declare (ignorable char))
   (check-type arg (or null (integer 1 3))
               "optional number of args (maximum 3)")
-  (let* ((form (read stream nil nil t))
-         (args (loop for i from 1 upto (or arg 3)
-                     collect (intern (make-string i :initial-element #\_) *package*))))
+  (let* ((args (loop for char = (read-char stream nil nil t)
+                     until (char= char #\.)
+                     collect (intern (make-string 1 :initial-element (char-upcase char)) *package*)))
+         (extra-args (when arg
+                       (loop for i below (- arg (length args))
+                             collect (gensym))))
+         (form (read stream nil nil t)))
     `(lambda ,(append
                (unless arg
                  '(&optional))
-               args)
-       (declare (ignorable ,@args))
+               (append args extra-args))
+       (declare (ignorable ,@args ,@extra-args))
        ,form)))
 
 (set-dispatch-macro-character

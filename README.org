@@ -78,6 +78,6 @@ See [[./reader.lisp]]:
   documentation, apropos, arglist. Requires Graven Image.
 - ~#^~ as a shortcut for throwaway lambdas:
 #+begin_src lisp
-'#^__ ;; => (lambda (&optional _ __ ___) __)
+'#^kv.v ;; => (lambda (&optional k v) v)
 #+end_src
 
