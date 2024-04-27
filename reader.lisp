@@ -12,7 +12,7 @@
        (apropos* (first (uiop:ensure-list val))
                  (second (uiop:ensure-list val))))
       (symbol (format t "~&~a" (lambda-list* val)))
-      (list (format t "~&~a" (documentation* (first val) (second val)))))
+      (list (format t "~&~a" (documentation* (first val) (or (second val) t)))))
     (terpri)
     (values)))
 
