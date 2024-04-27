@@ -82,9 +82,9 @@
              %ed-buffer (eval `(progn ,@to-edit))))
       (integer
        (setf %ed-index
-             (max 0 (if (minusp head)
-                        (- %ed-index head)
-                        (min head (length %ed-buffer)))))))
+             (max 0 (if (minusp index)
+                        (max 0 (- (length %ed-buffer) index))
+                        (min index (1- (length %ed-buffer))))))))
     (print-line)))
 
 (define-command (:edit :ed) (&rest to-edit)
