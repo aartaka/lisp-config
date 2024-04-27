@@ -2,6 +2,8 @@
   (:use :cl :graven-image))
 (in-package :reader-macros)
 
+;; TODO: hash table reader syntax like CL21
+
 (defun question-reader (stream char arg)
   (declare (ignorable char arg))
   (let ((val (read stream nil nil t))
