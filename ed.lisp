@@ -19,6 +19,12 @@
 (defvar %ed-index 0)
 (defvar %ed-clipboard nil)
 
+(defun set-index (index)
+  (setf %ed-index
+        (max 0 (if (minusp index)
+                   (max 0 (- (length %ed-buffer) index))
+                   (min index (1- (length %ed-buffer)))))))
+
 (defun print-line (&optional detail)
   (let ((*print-lines* 1)
         (*print-length* 10)
@@ -81,10 +87,7 @@
              %ed-index 0
              %ed-buffer (eval `(progn ,@to-edit))))
       (integer
-       (setf %ed-index
-             (max 0 (if (minusp index)
-                        (max 0 (- (length %ed-buffer) index))
-                        (min index (1- (length %ed-buffer))))))))
+       (set-index head)))
     (print-line)))
 
 (define-command (:edit :ed) (&rest to-edit)
@@ -119,6 +122,7 @@ EGRESS: the reappearance of a celestial body after an eclipse"
   "Descend into the current indexed (or form at INDEX) form to edit it
 EIK: to get with great difficulty."
   (let ((index (or index %ed-index)))
+    (set-index index)
     (when (listp (elt %ed-buffer index))
       (setf %ed-stack (append (list %ed-buffer index) %ed-stack)
             %ed-buffer (elt %ed-buffer index)
