@@ -43,15 +43,15 @@ controllable from CL (and Talkative)."
 
 (define-command/eval (:loadsys :lsd) (system &optional asd-file)
   "Load an ASDF SYSTEM"
+  (when asd-file
+    (asdf:load-asd (uiop:merge-pathnames*
+                    (etypecase asd-file
+                      (string (uiop:parse-native-namestring asd-file))
+                      (pathname asd-file))
+                    (uiop:getcwd))))
   (let ((system (if (asdf:find-system system nil)
                     system
                     (intern (package-name (find-package system)) :keyword))))
-    (when asd-file
-      (asdf:load-asd (uiop:merge-pathnames*
-                      (etypecase asd-file
-                        (string (uiop:parse-native-namestring asd-file))
-                        (pathname asd-file))
-                      (uiop:getcwd))))
     (cl-user::load-source system)))
 
 (define-command/eval (:quill :ql) (&rest systems)

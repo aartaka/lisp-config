@@ -69,9 +69,18 @@ Useful for dependency-based config files."
 (load (config "ed.lisp"))
 
 (defmacro with ((&rest vars+bindings) &body body)
-  `(let* (,@(loop for (var binding)
-                  on vars+bindings
-                  by #'cddr
-                  while var
-                  collect (list var binding)))
-     ,@body))
+  (labels ((recur (vars+bindings body)
+             (cond
+               ((and vars+bindings
+                     (symbolp (first vars+bindings)))
+                `(let ((,@(subseq vars+bindings 0 2)))
+                   ,(recur (cddr vars+bindings)
+                           body)))
+               ((and vars+bindings
+                     (listp (first vars+bindings)))
+                `(multiple-value-bind ,(first vars+bindings)
+                     ,(second vars+bindings)
+                   ,(recur (cddr vars+bindings)
+                           body)))
+               (t `(progn ,@body)))))
+    (recur vars+bindings body)))
