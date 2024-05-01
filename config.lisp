@@ -74,12 +74,14 @@ Useful for dependency-based config files."
                ((and vars+bindings
                      (symbolp (first vars+bindings)))
                 `(let ((,@(subseq vars+bindings 0 2)))
+                   (declare (ignorable ,(first vars+bindings)))
                    ,(recur (cddr vars+bindings)
                            body)))
                ((and vars+bindings
                      (listp (first vars+bindings)))
                 `(multiple-value-bind ,(first vars+bindings)
                      ,(second vars+bindings)
+                   (declare (ignorable ,@(first vars+bindings)))
                    ,(recur (cddr vars+bindings)
                            body)))
                (t `(progn ,@body)))))
