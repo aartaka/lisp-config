@@ -44,3 +44,10 @@ TODO: NAME THIS COMMAND MNEMONICALLY"
    (list "git" "commit" "-m" message))
   (uiop:run-program
    (list "git" "push")))
+
+(define-command/string (:vpull :vp) ()
+  "Pull the latest changes."
+  (uiop:run-program
+   (list "git" "fetch"))
+  (uiop:run-program
+   (list "git" "pull")))
