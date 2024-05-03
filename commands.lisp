@@ -49,7 +49,7 @@ controllable from CL (and Talkative)."
                       (string (uiop:parse-native-namestring asd-file))
                       (pathname asd-file))
                     (uiop:getcwd))))
-  (let ((system (asdf:find-system system nil)))
+  (let ((system (asdf:find-system (string system) nil)))
     (when system
       (cl-user::load-source system))))
 

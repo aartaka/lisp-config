@@ -18,23 +18,20 @@ VIVISECT: cut (a body) open while still alive."
     ,@args))
 
 (define-command/eval (:vclone :vc) (repo &optional dirname)
-  "Clone the REPO to DIRNAME or the repo name.
+  "Clone the REPO to DIRNAME or repo name, and switch to the cloned dir.
 TODO: NAME THIS COMMAND MNEMONICALLY"
-  (let ((old-dir (uiop:getcwd)))
-    (uiop:run-program
-     (list* "git" "clone"
-            (if (uiop:string-prefix-p "http" repo)
-                repo
-                (uiop:strcat "https://" repo))
-            (when dirname
-              (list dirname)))
-     :output t
-     :error-output t)
-    (uiop:chdir (or dirname
-                    (car (last (uiop:split-string repo :separator (list #\/))))))
-    (uiop:run-program
-     (list "git" "fetch" "--unshallow"))
-    (uiop:chdir old-dir)))
+  (uiop:run-program
+   (list* "git" "clone"
+          "--recursive"
+          (if (uiop:string-prefix-p "http" repo)
+              repo
+            (uiop:strcat "https://" repo))
+          (when dirname
+            (list dirname)))
+   :output t
+   :error-output t)
+  (uiop:chdir (or dirname
+                  (car (last (uiop:split-string repo :separator (list #\/)))))))
 
 (define-command/string (:vadd :va) (message)
   "Stage, commit, and send all the changes in the repo."
@@ -43,11 +40,15 @@ TODO: NAME THIS COMMAND MNEMONICALLY"
   (uiop:run-program
    (list "git" "commit" "-m" message))
   (uiop:run-program
-   (list "git" "push")))
+   (list "git" "push")
+   :output t
+   :error-output t))
 
 (define-command/string (:vpull :vp) ()
   "Pull the latest changes."
   (uiop:run-program
    (list "git" "fetch"))
   (uiop:run-program
-   (list "git" "pull")))
+   (list "git" "pull")
+   :output t
+   :error-output t))
