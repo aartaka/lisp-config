@@ -37,27 +37,28 @@ Useful for dependency-based config files."
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
-(defun load-after-system (system &optional file)
+(defun load-after-system (system &rest files)
   "A simplistic copy of Nyxt's macro of the same name"
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
   ;; causing compilation errors. Using `asdf:load-source-op' helps that,
   ;; as loading from source does not cause re-compilation.
   (when (ignore-errors (asdf:oos 'asdf:load-source-op system :verbose t))
-    (when file
-      (load file))))
+    (when files
+      (mapcar #'load files))))
 
 ;;; FIXME: *print-case* :downcase breaks some symbol-generation.
 (setf ;; *print-case* :downcase
       *print-circle* nil
       *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
-                               100)
+                               70)
       *print-lines* 5
       *print-length* 5
       *print-level* 3)
 
 (load-after-system :graven-image (config "gimage.lisp"))
 (load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
-(load-after-system :trivial-toplevel-commands (config "commands.lisp"))
+(load-after-system :trivial-toplevel-commands
+                   (config "commands.lisp") (load (config "ed.lisp")) (load (config "version-control.lisp")))
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
 
@@ -65,8 +66,6 @@ Useful for dependency-based config files."
 (use-package :arrow-macros)
 
 (load (config "reader.lisp"))
-
-(load (config "ed.lisp"))
 
 (defmacro with ((&rest vars+bindings) &body body)
   (labels ((recur (vars+bindings body)
