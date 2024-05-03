@@ -58,7 +58,7 @@ Useful for dependency-based config files."
 (load-after-system :graven-image (config "gimage.lisp"))
 (load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
 (load-after-system :trivial-toplevel-commands
-                   (config "commands.lisp") (load (config "ed.lisp")) (load (config "version-control.lisp")))
+                   (config "commands.lisp") (config "ed.lisp") (config "version-control.lisp"))
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
 
