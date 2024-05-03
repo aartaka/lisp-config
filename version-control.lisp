@@ -38,7 +38,9 @@ TODO: NAME THIS COMMAND MNEMONICALLY"
   (uiop:run-program
    (list "git" "add" "--all"))
   (uiop:run-program
-   (list "git" "commit" "-m" message))
+   (list "git" "commit" "-m" message)
+   :output t
+   :error-output t)
   (uiop:run-program
    (list "git" "push")
    :output t
