@@ -29,3 +29,5 @@
   "Implementations throw tantrums getting nonexistent entities' docs."
   (declare (ignorable object doc-type))
   (ignore-errors (call-next-method)))
+
+(gimage:dribble*)
