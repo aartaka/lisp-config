@@ -10,6 +10,12 @@ VIVISECT: cut (a body) open while still alive."
    :output t
    :error-output t))
 
+;; Branc+create command
+;; Rebase
+;; Merge
+;; List commits
+;; Append to the last commit
+
 (defmacro define-command/raw (&rest args)
   `(#-clozure
     define-command/string
