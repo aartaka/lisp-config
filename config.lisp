@@ -17,7 +17,7 @@ Useful for dependency-based config files."
 (require "asdf")
 
 (defun load-source (component)
-  (asdf:oos 'asdf:load-source-op component))
+  (asdf:oos 'asdf:load-source-op component :verbose t))
 
 #-(or ecl abcl)
 (ignore-errors (ql:quickload "cffi"))

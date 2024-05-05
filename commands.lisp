@@ -50,8 +50,9 @@ controllable from CL (and Talkative)."
                       (pathname asd-file))
                     (uiop:getcwd))))
   (let ((system (asdf:find-system (string system) nil)))
-    (when system
-      (cl-user::load-source system))))
+    (if system
+        (cl-user::load-source system)
+        (format t "System ~a not found~%" system))))
 
 (define-command/eval (:quill :ql) (&rest systems)
   "Load a SYSTEM via Quicklisp"
