@@ -30,4 +30,5 @@
   (declare (ignorable object doc-type))
   (ignore-errors (call-next-method)))
 
+#-abcl
 (gimage:dribble*)
