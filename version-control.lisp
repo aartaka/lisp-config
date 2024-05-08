@@ -19,7 +19,7 @@
    :output t
    :error-output t))
 
-(define-command (:vivisect :vi) ()
+(define-command (:vivisect :viv) ()
   "Show the diff of the last commit.
 VIVISECT: cut (a body) open while still alive."
   (run-program-with-out (list "git" "branch"))
@@ -39,9 +39,9 @@ VIVISECT: cut (a body) open while still alive."
     define-command/eval
     ,@args))
 
-(define-command/eval (:vclone :vc) (repo &optional dirname)
+(define-command/eval (:voyage :vo) (repo &optional dirname)
   "Clone the REPO to DIRNAME or repo name, and switch to the cloned dir.
-TODO: NAME THIS COMMAND MNEMONICALLY"
+VOYAGE: travel on water propelled by wind or by other means."
   (run-program-with-out
    (list* "git" "clone"
           "--recursive"
@@ -53,15 +53,17 @@ TODO: NAME THIS COMMAND MNEMONICALLY"
   (uiop:chdir (or dirname
                   (car (last (uiop:split-string repo :separator (list #\/)))))))
 
-(define-command/string (:vadd :va) (message)
-  "Stage, commit, and send all the changes in the repo."
+(define-command/string (:venture :ve) (message)
+  "Stage, commit, and send all the changes in the repo.
+VENTURE: put forward, of a guess, in spite of possible refutation."
   (run-program-with-out
    (list "git" "commit" "-am" message))
   (run-program-with-out
    (list "git" "push" "origin" (current-branch))))
 
-(define-command/string (:vpull :vp) (upstream)
-  "Pull the latest changes."
+(define-command/string (:visit :vi) (upstream)
+  "Pull the latest changes.
+VISIT: go to certain places as for sightseeing."
   (let ((upstream (if (uiop:emptyp upstream)
                       "origin"
                       upstream)))
@@ -70,8 +72,9 @@ TODO: NAME THIS COMMAND MNEMONICALLY"
     (run-program-with-out
      (list "git" "pull" upstream (current-branch)))))
 
-(define-command/string (:vbranch :vb) (branch)
-  "Checkout BRANCH or create it if it doesn't exist."
+(define-command/string (:verge :ver) (branch)
+  "Checkout BRANCH or create it if it doesn't exist.
+VERGE: border on; come close to."
   (handler-case
       (run-program-with-out (list "git" "checkout" "-b" (string-downcase (string branch))) :ignore-error-status t)
     (error ()
