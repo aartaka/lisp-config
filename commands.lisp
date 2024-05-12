@@ -165,4 +165,8 @@ subsequent actions on the manual."
   "Inspect the THING or the THING-indexed field in the current thing"
   (%inspect thing))
 
+(define-command/eval (:describe :de) (thing)
+  "Describe the THING in a human-friendly way."
+  (gimage:description* thing t))
+
 ;; TODO: Git commands (check out Shinmera's legit)
