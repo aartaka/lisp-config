@@ -59,9 +59,15 @@ controllable from CL (and Talkative)."
                                        dir)
   "(Switch to DIR, if provided) and list all the files in the current directory"
   (block dir
-    (let ((resolved-dir (merge-pathnames
-                         (uiop:parse-native-namestring dir)
-                         (uiop:getcwd))))
+    (let* ((tilde (eql #\~ (elt dir 0 )))
+           (resolved-dir (merge-pathnames
+                          (uiop:parse-native-namestring
+                           (if tilde
+                               (subseq dir 2)
+                               dir))
+                          (if tilde
+                              (user-homedir-pathname)
+                              (uiop:getcwd)))))
       (unless (uiop:directory-exists-p resolved-dir)
         (if (yes-or-no-p* "Create a ~a directory?" dir)
             (ensure-directories-exist (uiop:ensure-directory-pathname resolved-dir))
