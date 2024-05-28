@@ -47,13 +47,23 @@ Useful for dependency-based config files."
       (mapcar #'load files))))
 
 ;;; FIXME: *print-case* :downcase breaks some symbol-generation.
-(setf ;; *print-case* :downcase
-      *print-circle* nil
-      *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
-                               70)
-      *print-lines* 5
-      *print-length* 5
-      *print-level* 3)
+;;; FIXME: same for lines/length/level—they break too much code
+(setf
+ ;; *print-case* :downcase
+ ;; *print-lines* 5
+ ;; *print-length* 5
+ ;; *print-level* 3
+ *print-circle* nil
+ *print-right-margin* (or (ignore-errors (parse-integer (uiop:getenv "COLUMNS")))
+                          70))
+
+(defmacro with-useful-printing (&body body)
+  `(let ((*print-case* :downcase)
+         (*print-level* 2)
+         (*print-lines* 1)
+         (*print-length* 7)
+         (*print-circle* nil))
+     ,@body))
 
 (load-after-system :graven-image (config "gimage.lisp"))
 (load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
