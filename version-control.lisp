@@ -76,6 +76,6 @@ VISIT: go to certain places as for sightseeing."
   "Checkout BRANCH or create it if it doesn't exist.
 VERGE: border on; come close to."
   (handler-case
-      (run-program-with-out (list "git" "checkout" "-b" (string-downcase (string branch))) :ignore-error-status t)
+      (run-program-with-out (list "git" "checkout" "-b" (string-downcase (string branch))))
     (error ()
       (run-program-with-out (list "git" "checkout" (string-downcase (string branch)))))))
