@@ -47,7 +47,7 @@ VOYAGE: travel on water propelled by wind or by other means."
           "--recursive"
           (if (uiop:string-prefix-p "http" repo)
               repo
-            (uiop:strcat "https://" repo))
+              (uiop:strcat "https://" repo))
           (when dirname
             (list dirname))))
   (uiop:chdir (or dirname
