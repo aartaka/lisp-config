@@ -31,14 +31,6 @@ VIVISECT: cut (a body) open while still alive."
 ;; Rebase
 ;; Merge
 ;; Amend the last commit (git commit --amend --no-edit)
-
-(defmacro define-command/raw (&rest args)
-  `(#-clozure
-    define-command/string
-    #+clozure
-    define-command/eval
-    ,@args))
-
 (define-command/eval (:voyage :vo) (repo &optional dirname)
   "Clone the REPO to DIRNAME or repo name, and switch to the cloned dir.
 VOYAGE: travel on water propelled by wind or by other means."
