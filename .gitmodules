@@ -16,3 +16,6 @@
 [submodule "arrow-macros"]
 	path = arrow-macros
 	url = https://github.com/hipeta/arrow-macros
+[submodule "trivial-arguments"]
+	path = trivial-arguments
+	url = https://github.com/Shinmera/trivial-arguments
