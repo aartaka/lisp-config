@@ -75,7 +75,7 @@ Useful for dependency-based config files."
 (load-source :arrow-macros)
 (use-package :arrow-macros)
 
-(load (config "reader.lisp"))
+(load-after-system :trivial-arguments (config "reader.lisp"))
 
 (defmacro with ((&rest vars+bindings) &body body)
   (labels ((recur (vars+bindings body)

@@ -11,10 +11,13 @@
     (typecase val
       ((or keyword string
            (cons (or keyword string)))
-       (apropos* (first (uiop:ensure-list val))
-                 (second (uiop:ensure-list val))))
-      (symbol (format t "~&~a" (lambda-list* val)))
-      (list (format t "~&~a" (documentation* (first val) (or (second val) t)))))
+       (apropos (first (uiop:ensure-list val))
+                (second (uiop:ensure-list val))))
+      (symbol (format t "~&~a~%~a -> ~a"
+                      (trivial-arguments:arglist val)
+                      (nth-value 0 (trivial-arguments:argtypes val))
+                      (nth-value 1 (trivial-arguments:argtypes val))))
+      (list (format t "~&~a" (documentation (first val) (or (second val) 'function)))))
     (terpri)
     (values)))
 
