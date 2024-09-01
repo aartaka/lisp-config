@@ -22,7 +22,7 @@ sure you back them up!
 ** Readline customizations
 Some readline completions appended from =*-completions.txt=, so that
 #+begin_src sh
-  rlwrap ecl
+  rlwrap --remember -c -b "(){}[],^%$#@\"\";''|\\" ecl
 #+end_src
 
 Ends up with nice list of completions.
