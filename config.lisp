@@ -61,7 +61,7 @@ Useful for dependency-based config files."
   `(let ((*print-case* :downcase)
          (*print-level* 2)
          (*print-lines* 1)
-         (*print-length* 7)
+         (*print-length* 5)
          (*print-circle* nil))
      ,@body))
 
