@@ -19,3 +19,6 @@
 [submodule "trivial-arguments"]
 	path = trivial-arguments
 	url = https://github.com/Shinmera/trivial-arguments
+[submodule "trivial-inspect"]
+	path = trivial-inspect
+	url = https://github.com/aartaka/trivial-inspect
