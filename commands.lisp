@@ -150,22 +150,18 @@ subsequent actions on the manual."
 
 (defvar *inspected-thing* nil)
 
-(defun fields+indices (thing)
-  (let ((fields (fields* thing)))
-    (mapcar #'cons (gimage::field-indices fields) fields)))
-
 (defun %inspect (thing)
   (unless (null thing)
-    (let ((val (loop for (index field value) in (fields+indices *inspected-thing*)
+    (let ((val (loop for (index field value) in (trivial-inspect:fields *inspected-thing*)
                      when (or (equal thing index)
                               (equal thing field))
                        do (return value))))
       (setf *inspected-thing* (if val
                                   (setf *inspected-thing* val)
                                   thing))))
-  (let ((*print-case* :downcase))
-    (loop for (index key value) in (fields+indices *inspected-thing*)
-          do (format t "~&~d ~s~20t = ~s" index key value))))
+  (loop for (index key value) in (trivial-inspect:fields *inspected-thing*)
+        do (cl-user::with-useful-printing
+             (format t "~&~d ~s~20t = ~s" index key value))))
 
 (define-command/eval (:inspect :in) (thing)
   "Inspect the THING or the THING-indexed field in the current thing"
@@ -173,6 +169,6 @@ subsequent actions on the manual."
 
 (define-command/eval (:describe :de) (thing)
   "Describe the THING in a human-friendly way."
-  (gimage:description* thing t))
+  (trivial-inspect:description thing t))
 
 ;; TODO: Git commands (check out Shinmera's legit)
