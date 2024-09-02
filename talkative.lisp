@@ -53,6 +53,18 @@
 
 (defvar *talkative-enabled* nil)
 
+;; ;; Noisy, not sure if it's worth it
+;; (defmethod print-object :around ((object standard-object) stream)
+;;   (if *talkative-enabled*
+;;       (let ((representation (with-output-to-string (s)
+;;                               (call-next-method object s))))
+;;         (if (uiop:string-enclosed-p "#<" representation ">")
+;;             (write-string (uiop:strcat "UNREADABLE "
+;;                                        (subseq representation 2 (1- (length representation))))
+;;                           stream)
+;;             (call-next-method)))
+;;       (call-next-method)))
+
 (defun enable ()
   (setf *talkative-enabled* t
         *standard-output* (talkative-out *standard-output*)
