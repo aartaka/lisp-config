@@ -3,8 +3,6 @@
   (:export #:speak-string #:enable #:*speed*))
 (in-package :talkative)
 
-;; TODO: Unreadable object method and integer with *print-base* and *print-radix*.
-
 (defclass talkative-stream (trivial-gray-streams:fundamental-character-output-stream)
   ((buffer :initform '())
    (panicky-p :initform nil :initarg :panicky-p)))
