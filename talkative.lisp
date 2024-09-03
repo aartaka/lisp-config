@@ -25,9 +25,20 @@
                       (list "-p" "70"))
                   ,string))))
 
+(defun post-process-string (string)
+  (uiop:frob-substrings
+   string '("#<" "#x" "#o" "#b" "0x")
+   (lambda (match frob)
+     (case (elt match 1)
+       (#\< (funcall frob "UNREADABLE "))
+       (#\x (funcall frob "HEX "))
+       (#\o (funcall frob "OCTAL "))
+       (#\b (funcall frob "BINARY "))))))
+
 (defun speak-buffer (stream)
   (speak-string
-   (coerce (reverse (slot-value stream 'buffer)) 'string)
+   (post-process-string
+    (coerce (reverse (slot-value stream 'buffer)) 'string))
    :panicky-p (slot-value stream 'panicky-p))
   (setf (slot-value stream 'buffer) '()))
 
