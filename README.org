@@ -35,7 +35,7 @@ Also has lots of =:around= methods for my [[https://github.com/aartaka/graven-im
 standard-enhancing library. Mainly making printouts less overwhelming.
 
 ** Commands
-Convenience commands ([[./commands.lisp]]) to:
+Convenience commands ([[./commands.lisp]])
 
 ** Experimental editor
 Command-based editor with mnemonic commands. See [[./ed.lisp]].
@@ -59,7 +59,7 @@ plan is to turn it into a proper screenreader-ish setup. See [[./talkative.lisp]
 
 *** Nicer prompt (~CL-USER/D1?~)
 This one is made for Talkative mode convenience, because this format
-is most discernible when read with eSpeak.
+is most discernible when read with eSpeak. See [[./prompt.lisp]].
 
 ** Useful yet highly opinionated reader macros
 See [[./reader.lisp]]:
@@ -70,4 +70,4 @@ See [[./reader.lisp]]:
 #+begin_src lisp
 '#^kv.v ;; => (lambda (&optional k v) v)
 #+end_src
-
+- ~#!~ for shell. Harder to type than ~:sh~ command, but why not have it anyway?
