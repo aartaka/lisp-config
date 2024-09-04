@@ -5,6 +5,13 @@
 ;; TODO: hash table reader syntax like CL21
 
 (defun question-reader (stream char arg)
+  "Provide documentation/help for the form following #?.
+Depends on the form:
+- KEYWORD: `apropos' for the keyword name.
+- (KEYWORD PACKAGE): `apropos' in PACKAGE.
+- SYMBOL: Print argument list and argument types for SYMBOL-named
+  function.
+- (SYMBOL TYPE): Print the `documentation' for TYPEd SYMBOL."
   (declare (ignorable char arg))
   (let ((val (read stream nil nil t))
         (*print-case* :downcase))
@@ -25,20 +32,25 @@
  #\# #\? #'question-reader)
 
 (defun lambda-reader (stream char arg)
-  (declare (ignorable char))
-  (check-type arg (or null (integer 1 3))
-              "optional number of args (maximum 3)")
+  "Create a lambda from the #^ARGS.BODY spec.
+ARGS are a sequence of (maximum 3) chars to serve as (all optional) arguments.
+BODY is a single valid Lisp form, possibly referring to ARGS.
+ARGS and BODY are separated by a single period.
+
+Examples:
+#^x.x ;; Identity function.
+#^kv.(print (list k v)) ;; Useful fun for e.g. maphash
+#^.(print 'hello) ;; No-argument function
+#^.nil ;; Void and nothingness"
+  (declare (ignorable char arg))
   (let* ((args (loop for char = (read-char stream nil nil t)
                      until (char= char #\.)
                      collect (intern (make-string 1 :initial-element (char-upcase char)) *package*)))
-         (extra-args (when arg
-                       (loop for i below (- arg (length args))
-                             collect (gensym))))
          (form (read stream nil nil t)))
     `(lambda ,(append
                (unless arg
                  '(&optional))
-               (append args extra-args))
+               args)
        (declare (ignorable ,@args ,@extra-args))
        ,form)))
 
