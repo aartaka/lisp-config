@@ -7,16 +7,6 @@
   (cl-user::with-useful-printing
     (call-next-method)))
 
-(defmethod gimage:inspect* :around (object)
-  (declare (ignorable object))
-  (cl-user::with-useful-printing
-    (call-next-method)))
-
-(defmethod gimage:describe* :around (object &optional stream respect-methods)
-  (declare (ignorable object stream respect-methods))
-  (cl-user::with-useful-printing
-    (call-next-method)))
-
 (defmethod gimage:documentation* :around (object &optional doc-type)
   "Implementations throw tantrums getting nonexistent entities' docs."
   (declare (ignorable object doc-type))
