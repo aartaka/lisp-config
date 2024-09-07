@@ -170,5 +170,3 @@ subsequent actions on the manual."
 (define-command/eval (:describe :de) (thing)
   "Describe the THING in a human-friendly way."
   (trivial-inspect:description thing t))
-
-;; TODO: Git commands (check out Shinmera's legit)
