@@ -96,23 +96,3 @@ Useful for dependency-based config files."
                            body)))
                (t `(progn ,@body)))))
     (recur vars+bindings body)))
-
-;; Stolen and improved from Nyxt.
-(defmacro without-package-locks (&body body)
-  "Ignore package locks, where necessary.
-Also muffle redefinition warnings."
-  `(handler-bind ((warning #'muffle-warning))
-     #+(and sbcl sb-package-locks)
-     (sb-ext:without-package-locks
-       ,@body)
-     #+(and ecl package-locks)
-     (ext:without-package-locks
-       ,@body)
-     #+clisp
-     ;; WHAT, CLISP HAS PACKAGE LOCKS!!!!
-     (ext:without-package-lock ()
-       ,@body)
-     #-(or (and sbcl sb-package-locks)
-           (and ecl package-locks)
-           clisp)
-     (progn ,@body)))
