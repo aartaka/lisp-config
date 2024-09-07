@@ -51,7 +51,7 @@ Examples:
                (unless arg
                  '(&optional))
                args)
-       (declare (ignorable ,@args ,@extra-args))
+       (declare (ignorable ,@args))
        ,form)))
 
 (set-dispatch-macro-character
