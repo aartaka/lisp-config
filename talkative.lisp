@@ -25,13 +25,14 @@
 
 (defun post-process-string (string)
   (uiop:frob-substrings
-   string '("#<" "#x" "#o" "#b" "0x")
+   string '("#<" "#x" "#o" "#b" "0x" "#P\"" "#p\"")
    (lambda (match frob)
      (case (elt match 1)
        (#\< (funcall frob "UNREADABLE "))
        (#\x (funcall frob "HEX "))
        (#\o (funcall frob "OCTAL "))
-       (#\b (funcall frob "BINARY "))))))
+       (#\b (funcall frob "BINARY "))
+       ((#\p #\P) (funcall frob "FILE "))))))
 
 (defun speak-buffer (stream)
   (speak-string
