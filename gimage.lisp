@@ -7,10 +7,5 @@
   (cl-user::with-useful-printing
     (call-next-method)))
 
-(defmethod gimage:documentation* :around (object &optional doc-type)
-  "Implementations throw tantrums getting nonexistent entities' docs."
-  (declare (ignorable object doc-type))
-  (ignore-errors (call-next-method)))
-
 #-abcl
 (gimage:dribble*)
