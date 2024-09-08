@@ -61,6 +61,12 @@ plan is to turn it into a proper screenreader-ish setup. See [[./talkative.lisp]
 This one is made for Talkative mode convenience, because this format
 is most discernible when read with eSpeak. See [[./prompt.lisp]].
 
+** Documentation extensions
+See [[./documentation.lisp]] for my custom methods on ~documentation~, including
+- Method with ~package~ doctype.
+- Intuitive T doctype method on symbols.
+- ~:doc~ command printing docs for arbitrary symbol.
+
 ** Useful yet highly opinionated reader macros
 See [[./reader.lisp]]:
 - ~#?~ to print meta information about the symbol after it:
