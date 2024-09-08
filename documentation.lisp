@@ -1,8 +1,5 @@
 (in-package :cl-user)
 
-(defmacro safe-doc (val &optional (type t))
-  `(ignore-errors (documentation ,val ,type)))
-
 (handler-bind ((warning #'muffle-warning))
   (#+(and sbcl sb-package-locks) sb-ext:without-package-locks
      #+(and ecl package-locks) ext:without-package-locks
@@ -20,22 +17,17 @@ Useful in the symbol-resolving method below."
      (defmethod documentation ((x symbol) (doc-type (eql t)))
        "A DWIM method on X resolving it against different entities."
        (macrolet ((doc (type)
-                    `(ignore-errors (documentation x (quote ,type)))))
+                    `(documentation x (quote ,type))))
          (when x
-           (or (ignore-errors
-                (documentation (macro-function x) t))
+           (or (documentation (macro-function x) t)
                (doc function)
-               (ignore-errors
-                (documentation (fdefinition x) t))
-               (ignore-errors
-                (documentation (symbol-function x) t))
+               (documentation (fdefinition x) t)
+               (documentation (symbol-function x) t)
                (doc variable)
                (doc type)
-               (ignore-errors
-                (documentation (find-class x) t))
+               (documentation (find-class x) t)
                (doc structure)
-               (ignore-errors
-                (documentation (find-package x) t))
+               (documentation (find-package x) t)
                (doc compiler-macro)
                (doc setf)
                (doc method-combination)))))
@@ -52,15 +44,15 @@ If something can be found via `find-package', then why not resolve it?"
 
      (defmethod (setf documentation) (value (x symbol) (doc-type (eql t)))
        (macrolet ((doc (type)
-                    `(ignore-errors (documentation x (quote ,type))))
+                    `(documentation x (quote ,type)))
                   (set-doc (type)
                     `(setf (documentation x (quote ,type))
                            value)))
          (cond
            ((null x) nil)
            ((or (doc function)
-                (safe-doc (fdefinition x))
-                (safe-doc (symbol-function x)))
+                (documentation (fdefinition x) t)
+                (documentation (symbol-function x)))
             (set-doc function)
             (setf (documentation (fdefinition x) t)
                   value)
@@ -88,7 +80,10 @@ If something can be found via `find-package', then why not resolve it?"
      (defmethod (setf documentation) (value x (doc-type (eql 'package)))
        (declare (ignore doc-type))
        (setf (documentation (find-package x) t)
-             value))))
+             value))
+
+     (defmethod documentation :around (x doc-type)
+       (ignore-errors (call-next-method)))))
 
 (#+clozure tpl-cmd:define-command/eval
  #-clozure tpl-cmd:define-command/read (:documentation :doc) (thing)
