@@ -52,7 +52,7 @@ If something can be found via `find-package', then why not resolve it?"
            ((null x) nil)
            ((or (doc function)
                 (documentation (fdefinition x) t)
-                (documentation (symbol-function x)))
+                (documentation (symbol-function x) t))
             (set-doc function)
             (setf (documentation (fdefinition x) t)
                   value)
@@ -83,6 +83,7 @@ If something can be found via `find-package', then why not resolve it?"
              value))
 
      (defmethod documentation :around (x doc-type)
+       (declare (ignore x doc-type))
        (ignore-errors (call-next-method)))))
 
 (#+clozure tpl-cmd:define-command/eval
