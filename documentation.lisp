@@ -19,7 +19,10 @@ Useful in the symbol-resolving method below."
        (macrolet ((doc (type)
                     `(documentation x (quote ,type))))
          (when x
-           (or (documentation (macro-function x) t)
+           (or (and (keywordp x)
+                    (tpl-cmds:command-handler x)
+                    (documentation (tpl-cmds:command-handler x) 'function))
+               (documentation (macro-function x) t)
                (doc function)
                (documentation (fdefinition x) t)
                (documentation (symbol-function x) t)
@@ -81,9 +84,6 @@ If something can be found via `find-package', then why not resolve it?"
        (declare (ignore doc-type))
        (setf (documentation (find-package x) t)
              value))
-
-     (defmethod documentation ((x keyword) (doc-type (eql t)))
-       (documentation (tpl-cmd:command-handler x) 'function))
 
      (defmethod documentation :around (x doc-type)
        (declare (ignore x doc-type))
