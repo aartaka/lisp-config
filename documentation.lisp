@@ -82,6 +82,9 @@ If something can be found via `find-package', then why not resolve it?"
        (setf (documentation (find-package x) t)
              value))
 
+     (defmethod documentation ((x keyword) (doc-type (eql t)))
+       (documentation (tpl-cmd:command-handler x) 'function))
+
      (defmethod documentation :around (x doc-type)
        (declare (ignore x doc-type))
        (ignore-errors (call-next-method)))))
