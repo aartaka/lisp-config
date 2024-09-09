@@ -119,7 +119,7 @@ controllable from CL (and Talkative)."
          (setf %page-index (min (first args) (1- (length %page-buffer))))
          (print-n-lines 1))
         ((integer * 0)
-         (setf %page-index (max 0 (- %page-index (first args))))
+         (setf %page-index (max 0 (+ %page-index (first args))))
          (print-n-lines 1))
         (pathname
          (setf %page-index 0
