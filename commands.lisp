@@ -170,3 +170,6 @@ subsequent actions on the manual."
 (define-command/eval (:describe :de) (thing)
   "Describe the THING in a human-friendly way."
   (trivial-inspect:description thing t))
+
+;; TODO: :install command to get packages on Debian/Raspberry
+;; vs. GNU/Linux/Guix (via uname -a)
