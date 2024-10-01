@@ -75,7 +75,8 @@ controllable from CL (and Talkative)."
               (return-from dir)))
         (unless (uiop:emptyp dir)
           (uiop:chdir resolved-dir))))
-    (format t "Directory ~a~:[~;:~{~&~a/~}~{~&~a~}~]"
+    (format t "~:[Switched to d~;D~]irectory ~a~:[~;:~{~&~a/~}~{~&~a~}~]"
+            (uiop:emptyp dir)
             (uiop:getcwd)
             (uiop:emptyp dir)
             (mapcar (lambda (d)
