@@ -20,7 +20,7 @@
    :error-output t))
 
 (define-command (:vivisect :viv) ()
-  "Show the diff of the last commit.
+  "Show the diff of the last commit
 VIVISECT: cut (a body) open while still alive."
   (run-program-with-out (list "git" "branch"))
   (run-program-with-out (list "git" "status" "--porcelain"))
@@ -32,7 +32,7 @@ VIVISECT: cut (a body) open while still alive."
 ;; Merge
 ;; Amend the last commit (git commit --amend --no-edit)
 (define-command/eval (:voyage :vo) (repo &optional dirname)
-  "Clone the REPO to DIRNAME or repo name, and switch to the cloned dir.
+  "Clone the REPO to DIRNAME or repo name, and switch to the cloned dir
 VOYAGE: travel on water propelled by wind or by other means."
   (run-program-with-out
    (list* "git" "clone"
@@ -46,7 +46,7 @@ VOYAGE: travel on water propelled by wind or by other means."
                   (car (last (uiop:split-string repo :separator (list #\/)))))))
 
 (define-command/string (:venture :ve) (message)
-  "Stage, commit, and send all the changes in the repo.
+  "Stage, commit, and send all the changes in the repo
 VENTURE: put forward, of a guess, in spite of possible refutation."
   (run-program-with-out
    (list "git" "commit" "-am" message))
@@ -54,7 +54,7 @@ VENTURE: put forward, of a guess, in spite of possible refutation."
    (list "git" "push" "origin" (current-branch))))
 
 (define-command/string (:visit :vi) (upstream)
-  "Pull the latest changes.
+  "Pull the latest changes
 VISIT: go to certain places as for sightseeing."
   (let ((upstream (if (uiop:emptyp upstream)
                       "origin"
@@ -65,7 +65,7 @@ VISIT: go to certain places as for sightseeing."
      (list "git" "pull" upstream (current-branch)))))
 
 (define-command/string (:verge :ver) (branch)
-  "Checkout BRANCH or create it if it doesn't exist.
+  "Checkout BRANCH or create it if it doesn't exist
 VERGE: border on; come close to."
   (handler-case
       (run-program-with-out (list "git" "checkout" "-b" (string-downcase (string branch))))

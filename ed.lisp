@@ -140,7 +140,7 @@ EIK: to get with great difficulty."
               %ed-index index)))))
 
 (define-command (:escape :es) (&optional that-many-levels)
-  "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part.
+  "Get back THAT-MANY-LEVELS to previous editor state, replacing the previously edited part
 ESCAPE: cut and run."
   (buffer-up (or that-many-levels 1))
   (print-line))
