@@ -22,3 +22,6 @@
 [submodule "trivial-inspect"]
 	path = trivial-inspect
 	url = https://github.com/aartaka/trivial-inspect
+[submodule "trivial-time"]
+	path = trivial-time
+	url = https://github.com/aartaka/trivial-time

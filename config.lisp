@@ -73,6 +73,7 @@ Useful for dependency-based config files."
                    (config "ed.lisp")
                    (config "version-control.lisp")
                    (config "documentation.lisp"))
+(load-after-system :trivial-time (config "time.lisp"))
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
 
