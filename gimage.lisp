@@ -6,6 +6,3 @@
   (declare (ignorable string package external-only docs-too))
   (cl-user::with-useful-printing
     (call-next-method)))
-
-#-abcl
-(gimage:dribble*)
