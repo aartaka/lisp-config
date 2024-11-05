@@ -64,15 +64,19 @@ Examples:
 (defun bang-reader (stream char arg)
   "Read a shell command (until a newline) and run it.
 Print the output of the command to `*standard-output*'.
-When ARG is provided, only print ARG lines or less."
+When ARG is provided, only print first ARG lines or less.
+If ARG is negative, print ARG last lines."
   (declare (ignore char))
   (let* ((arg (or arg 1000))
          (command (read-line stream))
          (output (ignore-errors
                   (uiop:run-program command :output '(:string :stripped t))))
-         (lines (uiop:split-string output :separator '(#\Newline))))
+         (lines (uiop:split-string output :separator '(#\Newline)))
+         (lines (if (plusp arg)
+                    lines
+                    (reverse lines))))
     (loop for line in lines
-          for i below arg
+          for i below (abs arg)
           do (format t "~&~a" line))
     (fresh-line)
     (values)))
