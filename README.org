@@ -70,7 +70,7 @@ See [[./documentation.lisp]] for my custom methods on ~documentation~, including
 ** Useful yet highly opinionated reader macros
 See [[./reader.lisp]]:
 - ~#?~ to print meta information about the symbol after it:
-  documentation, apropos, arglist. Requires Graven Image.
+  documentation, apropos, arglist.
 - ~#^~ as a shortcut for throwaway lambdas. Inspired by typical Lambda
   Calculus notation:
 #+begin_src lisp
