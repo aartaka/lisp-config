@@ -1,8 +1,9 @@
-(uiop:define-package :commands
-  (:use :cl :graven-image))
-(in-package :commands)
-
+(in-package :cl)
 (use-package :trivial-toplevel-commands)
+
+(uiop:define-package :commands
+  (:use :cl :graven-image :trivial-toplevel-commands))
+(in-package :commands)
 
 (define-command/eval :qq (&optional code)
   "Quit properly"
