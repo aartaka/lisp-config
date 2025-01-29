@@ -34,6 +34,17 @@ Useful for dependency-based config files."
 #+sbcl
 (require "sb-aclrepl")
 
+#-sbcl
+(defmacro without-package-locks (&body body)
+  `(#+(and sbcl sb-package-locks) sb-ext:without-package-locks
+      #+(and ecl package-locks) ext:without-package-locks
+      #+clisp ext:without-package-lock #+clisp ()
+      #-(or (and sbcl sb-package-locks)
+            (and ecl package-locks)
+            clisp)
+      progn
+      ,@body))
+
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
