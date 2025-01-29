@@ -114,7 +114,8 @@ EJECT: put out or expel from a place."
   (setf %ed-clipboard (subseq %ed-buffer %ed-index (min (+ %ed-index (or that-many-lines 1))
                                                         (length %ed-buffer)))
         %ed-buffer (append (subseq %ed-buffer 0 %ed-index)
-                           (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
+                           (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))
+        %ed-index (1- %ed-index)))
 
 (define-command (:egress :eg) (&optional before)
   "Paste the last :eject-ed text to BEFORE or after the current line
