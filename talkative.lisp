@@ -21,7 +21,9 @@
                   "-k" "20"
                   ,@(when panicky-p
                       (list "-p" "70"))
-                  ,string))))
+                  ,(if (uiop:string-prefix-p "-" string)
+                       (uiop:strcat #\Space string)
+                       string)))))
 
 (defun post-process-string (string)
   (uiop:frob-substrings
