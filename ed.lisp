@@ -94,7 +94,7 @@
   "Edit the TO-EDIT data
 TO-EDIT might be one of:
 - String or pathname to edit the file it points to.
-- List of forms to evaluate and edit the `*standard-output*' of.
+- List of forms to evaluate and edit the value of.
 - An integer to move to an indexed line in editor buffer.
 
 Useful commands:
