@@ -35,10 +35,6 @@ If something can be found via `find-package', then why not resolve it?"
       (declare (ignore doc-type))
       (documentation (find-package x) t))
 
-    (defmethod documentation (x (doc-type (eql 'command)))
-      (declare (ignore doc-type))
-      (documentation (tpl-cmd:command-handler x) 'function))
-
     (defmethod (setf documentation) (value (x null) (doc-type (eql t)))
       (declare (ignore value x doc-type))
       nil)
