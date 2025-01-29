@@ -95,7 +95,17 @@
 TO-EDIT might be one of:
 - String or pathname to edit the file it points to.
 - List of forms to evaluate and edit the `*standard-output*' of.
-- An integer to move to an indexed line in editor buffer."
+- An integer to move to an indexed line in editor buffer.
+
+Useful commands:
+- :enter, :erase & :effuse to add forms before/instead/after.
+- :eik to descend, :escape to get back.
+- :echo/:eye to print/scroll lines.
+- :err to replace form.
+- :embrace/:entrail to wrap/unwrap expressions
+- :eject to copy, :egress to paste.
+- :etch to save.
+- :eval to eval form."
   (apply #'edit to-edit))
 
 (define-command (:eject :ej) (&optional that-many-lines)
@@ -107,7 +117,7 @@ EJECT: put out or expel from a place."
                            (nthcdr (+ %ed-index (or that-many-lines 1)) %ed-buffer))))
 
 (define-command (:egress :eg) (&optional before)
-  "Paste the last :ekill-ed text to BEFORE or after the current line
+  "Paste the last :eject-ed text to BEFORE or after the current line
 EGRESS: the reappearance of a celestial body after an eclipse"
   (setf %ed-buffer
         (append (subseq %ed-buffer 0 (if before
