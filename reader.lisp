@@ -15,20 +15,21 @@ Depends on the form:
   (declare (ignorable char arg))
   (let ((val (read stream nil nil t))
         (*print-case* :downcase))
-    (typecase val
-      ((or keyword string
-           (cons (or keyword string)))
-       (apropos (first (uiop:ensure-list val))
-                (second (uiop:ensure-list val))))
-      ((and symbol
-            (satisfies fboundp))
-       (format t "~&~a~%~a -> ~a"
-               (trivial-arguments:arglist val)
-               (nth-value 0 (trivial-arguments:argtypes val))
-               (nth-value 1 (trivial-arguments:argtypes val))))
-      (symbol
-       (format t "~&~a = ~a" val (symbol-value val)))
-      (list (format t "~&~a" (documentation (first val) (or (second val) 'function)))))
+    (cl-user::with-useful-printing
+      (typecase val
+        ((or keyword string
+             (cons (or keyword string)))
+         (apropos (first (uiop:ensure-list val))
+                  (second (uiop:ensure-list val))))
+        ((and symbol
+              (satisfies fboundp))
+         (format t "~&~a~%~a -> ~a"
+                 (trivial-arguments:arglist val)
+                 (nth-value 0 (trivial-arguments:argtypes val))
+                 (nth-value 1 (trivial-arguments:argtypes val))))
+        (symbol
+         (format t "~&~a = ~a" val (symbol-value val)))
+        (list (format t "~&~a" (documentation (first val) (or (second val) 'function))))))
     (terpri)
     (values)))
 
