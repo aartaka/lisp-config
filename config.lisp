@@ -48,6 +48,9 @@ Useful for dependency-based config files."
 ;; (declaim (optimize speed))
 (declaim (optimize (safety 3) (debug 3)))
 
+(load-source :arrow-macros)
+(use-package :arrow-macros)
+
 (defun load-after-system (system &rest files)
   "A simplistic copy of Nyxt's macro of the same name"
   ;; On Guix, all the SBCL FASLs are put into read-only directories,
@@ -87,9 +90,6 @@ Useful for dependency-based config files."
 (load-after-system :trivial-time (config "time.lisp"))
 
 (load-after-system :trivial-gray-streams (config "talkative.lisp"))
-
-(load-source :arrow-macros)
-(use-package :arrow-macros)
 
 (load-after-system :trivial-arguments (config "reader.lisp"))
 
