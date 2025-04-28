@@ -84,3 +84,8 @@ If ARG is negative, print ARG last lines."
 
 (set-dispatch-macro-character
  #\# #\! #'bang-reader)
+
+#+sbcl
+(setf sb-debug:*debug-readtable* *readtable*)
+#+ecl
+(setf si:*break-readtable* *readtable*)
