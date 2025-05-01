@@ -2,8 +2,6 @@
   (:use :cl :graven-image))
 (in-package :reader-macros)
 
-;; TODO: hash table reader syntax like CL21
-
 (defun question-reader (stream char arg)
   "Provide documentation/help for the form following #?.
 Depends on the form:
@@ -84,6 +82,22 @@ If ARG is negative, print ARG last lines."
 
 (set-dispatch-macro-character
  #\# #\! #'bang-reader)
+
+(defun hashtable-reader (stream char arg)
+  "Read a hash table as a key-value plist
+Creates an equal-comparing one, I might extend it with odd-equality
+heuristic later."
+  (declare (ignore char arg))
+  (let ((list (read-delimited-list #\} stream t))
+        (hash-var (gensym)))
+    `(let ((,hash-var (make-hash-table :test 'equal)))
+       ,@(loop for (key value) on list by #'cddr
+               collect `(setf (gethash ,key ,hash-var) ,value))
+       ,hash-var)))
+
+(set-dispatch-macro-character
+ #\# #\{ #'hashtable-reader)
+(set-macro-character #\} nil nil)
 
 #+sbcl
 (setf sb-debug:*debug-readtable* *readtable*)
