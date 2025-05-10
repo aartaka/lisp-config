@@ -77,3 +77,4 @@ See [[./reader.lisp]]:
 '#^kv.v ;; => (lambda (&optional k v) v)
 #+end_src
 - ~#!~ for shell. Harder to type than ~:sh~ command, but why not have it anyway?
+- ~#{}~ for Clojure-inspired hash tables
