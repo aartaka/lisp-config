@@ -98,6 +98,19 @@ heuristic later."
  #\# #\{ #'hashtable-reader)
 (set-macro-character #\} nil nil)
 
+(defun comment-reader (stream char n)
+  "Read the next N (or 1) forms and return nothing
+Clojure- and Scheme-like s-exp comment syntax."
+  (declare (ignore char))
+  (loop repeat (or n 1)
+        for form = (read stream nil nil t)
+        finally (return (values))))
+
+(set-dispatch-macro-character
+ #\# #\_ #'comment-reader)
+(set-dispatch-macro-character
+ #\# #\; #'comment-reader)
+
 #+sbcl
 (setf sb-debug:*debug-readtable* *readtable*)
 #+ecl
