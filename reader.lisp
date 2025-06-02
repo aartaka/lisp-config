@@ -103,7 +103,7 @@ heuristic later."
 Clojure- and Scheme-like s-exp comment syntax."
   (declare (ignore char))
   (loop repeat (or n 1)
-        for form = (read stream nil nil t)
+        do (read stream nil nil t)
         finally (return (values))))
 
 (set-dispatch-macro-character
