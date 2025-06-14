@@ -88,7 +88,7 @@ controllable from CL (and Talkative)."
 
 (define-command :loadrc ()
   "Reload the config file"
-  (load (cl-user::config "config.lisp")))
+  (load #p"cfg:config.lisp"))
 
 (defvar %page-buffer nil)
 (defvar %page-index nil)

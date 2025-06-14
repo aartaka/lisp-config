@@ -6,10 +6,11 @@
                ,@(loop for (pattern expansion) in patterns
                        collect `(list ,pattern ,expansion)))))
 
-(defun config (path)
-  "Resolve the PATH against Lisp config dir.
-Useful for dependency-based config files."
-  (merge-pathnames path (home ".config/common-lisp/")))
+(define-logical-pathname "cfg"
+    ("CFG:**;*.*.*" "/home/aartaka/.config/common-lisp/**/*.*"))
+
+(defun home (path)
+  (merge-pathnames path (user-homedir-pathname)))
 
 ;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
@@ -82,19 +83,19 @@ Useful for dependency-based config files."
          (*print-circle* nil))
      ,@body))
 
-(load-after-system :graven-image (config "gimage.lisp"))
-(load-after-system :trivial-toplevel-prompt (config "prompt.lisp"))
+(load-after-system :graven-image #p"cfg:gimage.lisp")
+(load-after-system :trivial-toplevel-prompt #p"cfg:prompt.lisp")
 (load-after-system :trivial-inspect)
 (load-after-system :trivial-toplevel-commands
-                   (config "commands.lisp")
-                   (config "ed.lisp")
-                   (config "version-control.lisp")
-                   (config "documentation.lisp"))
-(load-after-system :trivial-time (config "time.lisp"))
+                   #p"cfg:commands.lisp"
+                   #p"cfg:ed.lisp"
+                   #p"cfg:version-control.lisp"
+                   #p"cfg:documentation.lisp")
+(load-after-system :trivial-time #p"cfg:time.lisp")
 
-(load-after-system :trivial-gray-streams (config "talkative.lisp"))
+(load-after-system :trivial-gray-streams #p"cfg:talkative.lisp")
 
-(load-after-system :trivial-arguments (config "reader.lisp"))
+(load-after-system :trivial-arguments #p"cfg:reader.lisp")
 
 (defmacro with ((&rest vars+bindings) &body body)
   (labels ((recur (vars+bindings body)
