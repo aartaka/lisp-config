@@ -1,7 +1,10 @@
 (in-package :cl-user)
 
-(defun home (path)
-  (merge-pathnames path (user-homedir-pathname)))
+(defmacro define-logical-pathname (host (pattern expansion) &rest patterns)
+  `(setf (logical-pathname-translations ,host)
+         (list (list ,pattern ,expansion)
+               ,@(loop for (pattern expansion) in patterns
+                       collect `(list ,pattern ,expansion)))))
 
 (defun config (path)
   "Resolve the PATH against Lisp config dir.
