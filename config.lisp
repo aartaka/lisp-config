@@ -6,8 +6,15 @@
                ,@(loop for (pattern expansion) in patterns
                        collect `(list ,pattern ,expansion)))))
 
+#-ccl
+(define-logical-pathname "home"
+    ("HOME:**;*.*.*" "/home/aartaka/**/*.*"))
+
 (define-logical-pathname "cfg"
     ("CFG:**;*.*.*" "/home/aartaka/.config/common-lisp/**/*.*"))
+
+(define-logical-pathname "git"
+    ("GIT:**;*.*.*" "/home/aartaka/git/**/*.*"))
 
 (defun home (path)
   (merge-pathnames path (user-homedir-pathname)))
