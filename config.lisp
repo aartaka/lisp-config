@@ -11,10 +11,10 @@
     ("HOME:**;*.*.*" "/home/aartaka/**/*.*"))
 
 (define-logical-pathname "cfg"
-    ("CFG:**;*.*.*" "/home/aartaka/.config/common-lisp/**/*.*"))
+    ("CFG:**;*.*.*" (merge-pathnames #p".config/common-lisp/**/*.*" (user-homedir-pathname))))
 
 (define-logical-pathname "git"
-    ("GIT:**;*.*.*" "/home/aartaka/git/**/*.*"))
+    ("GIT:**;*.*.*" (merge-pathnames "git/**/*.*" (user-homedir-pathname))))
 
 (defun home (path)
   (merge-pathnames path (user-homedir-pathname)))
