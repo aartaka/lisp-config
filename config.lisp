@@ -20,13 +20,13 @@
 (defun home (path)
   (merge-pathnames path (user-homedir-pathname)))
 
+(require "asdf")
+
 ;;; The following lines added by ql:add-to-init-file:
 #-quicklisp
 (let ((quicklisp-init (home "quicklisp/setup.lisp")))
   (when (probe-file quicklisp-init)
     (load quicklisp-init)))
-
-(require "asdf")
 
 (defun load-source (component)
   (asdf:oos 'asdf:load-source-op component :verbose t))
