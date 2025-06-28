@@ -8,7 +8,8 @@
 
 #-ccl
 (define-logical-pathname "home"
-    ("HOME:**;*.*.*" "/home/aartaka/**/*.*"))
+    ("HOME:**;*.*.*" "/home/aartaka/**/*.*")
+    ("HOME:" "/home/aartaka/"))
 
 (define-logical-pathname "cfg"
     ("CFG:**;*.*.*" (merge-pathnames #p".config/common-lisp/**/*.*" (user-homedir-pathname))))
